@@ -96,7 +96,8 @@
         @if ($apiToken)
             <p style="color:#64748b;font-size:14px;margin-bottom:16px">
                 Une clé API est active (générée le {{ $apiToken->created_at->format('d/m/Y à H:i') }}{{ $apiToken->last_used_at ? ', dernière utilisation le '.$apiToken->last_used_at->format('d/m/Y à H:i') : ', jamais utilisée' }}).
-                Utilisez-la pour authentifier des intégrations externes via l'en-tête <code>Authorization: Bearer &lt;clé&gt;</code>.
+                Utilisez-la pour authentifier des requêtes vers <code>{{ url('/api/v1') }}</code> (stades, réservations) via l'en-tête <code>Authorization: Bearer &lt;clé&gt;</code>.
+                L'accès est automatiquement limité à ce que votre compte peut voir dans l'application.
             </p>
             <div style="display:flex;gap:8px">
                 <form method="POST" action="{{ route('parametres.api-token.generate') }}" onsubmit="return confirm('Régénérer la clé API ? L\'ancienne cessera de fonctionner immédiatement.');">
