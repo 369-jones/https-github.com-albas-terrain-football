@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+    /* Palette — pitch grass + African sunset, not the default clay/cream look */
+    --color-pitch-950: #0f2b21;
+    --color-pitch-900: #16382b;
+    --color-pitch-800: #1b4332;
+    --color-pitch-700: #245c42;
+    --color-pitch-600: #2f7a55;
+    --color-pitch-500: #52b788;
+    --color-pitch-400: #82d4ab;
+    --color-pitch-100: #e4f5ec;
+    --color-pitch-50: #f2faf6;
+
+    --color-amber-signal: #f4a261;
+    --color-amber-signal-dark: #d9822f;
+
+    --color-ink: #16211c;
+    --color-sand: #f7f3e9;
+    --color-sand-100: #fbf9f4;
+    --color-line: #e3ddc9;
+
+    /* Type: condensed display for headlines (stadium-signage feel),
+       humanist sans for body, mono for scores/times/prices (scoreboard digits) */
+    --font-display: "Bricolage Grotesque", "Archivo Expanded", sans-serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-score: "IBM Plex Mono", ui-monospace, monospace;
+
+    --radius-ticket: 0.75rem;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-sand);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+    }
+
+    h1, h2, h3, h4 {
+        font-family: var(--font-display);
+    }
+
+    /* Visible keyboard focus everywhere — accessibility floor, never remove */
+    :focus-visible {
+        outline: 3px solid var(--color-amber-signal);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@layer components {
+    /* Signature element: a perforated ticket-stub edge, used on the booking
+       confirmation and checkout summary — nods to a match-day ticket. */
+    .ticket-edge {
+        position: relative;
+        border-radius: var(--radius-ticket);
+    }
+    .ticket-edge::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background-image: radial-gradient(circle, var(--color-sand) 3px, transparent 3.5px);
+        background-size: 14px 14px;
+        background-position: 0 -7px;
+        background-repeat: repeat-x;
+        background-position-y: top;
+        height: 8px;
+        top: -4px;
+    }
+}

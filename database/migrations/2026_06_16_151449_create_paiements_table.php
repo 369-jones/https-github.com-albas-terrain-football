@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('paiements', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('reservation_id')->constrained('reservations')->onDelete('cascade');
+            $table->decimal('montant_du', 10, 2);         // Montant total dû
+            $table->decimal('montant_paye', 10, 2);       // Montant effectivement payé
+            $table->enum('mode_paiement', [
+                'Espèces',
+                'Mobile Money',
+                'Virement',
+                'Chèque',
+            ])->default('Espèces');
+            $table->enum('statut', [
+                'paye',
+                'partiel',
+                'impaye',
+            ])->default('impaye');
+            $table->date('date_paiement');
+            $table->string('reference')->nullable();      // N° de transaction
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('paiements');
+    }
+};
