@@ -243,7 +243,7 @@
     <div class="header">
         <div class="header-inner">
             <div class="header-left">
-                <div class="logo-title">⚽ {{ config('app.name') }}</div>
+                <div class="logo-title">{{ config('app.name') }}</div>
                 <div class="logo-sub">Université Marcelo</div>
                 <div class="logo-sub">Kinshasa · RDCongo</div>
             </div>

@@ -238,10 +238,10 @@
 
             {{-- MESSAGES FLASH --}}
             @if(session('success'))
-                <div class="alert alert-success">✅ {{ session('success') }}</div>
+                <div class="alert alert-success"><i class="fa-solid fa-circle-check"></i> {{ session('success') }}</div>
             @endif
             @if(session('error'))
-                <div class="alert alert-error">❌ {{ session('error') }}</div>
+                <div class="alert alert-error"><i class="fa-solid fa-circle-xmark"></i> {{ session('error') }}</div>
             @endif
 
             @yield('content')
@@ -281,7 +281,7 @@
         `;
         toast.innerHTML = `
             <div style="display:flex;align-items:flex-start;gap:10px">
-                <span style="font-size:20px">${notif.icone}</span>
+                <span style="font-size:20px;color:${notif.couleur}"><i class="fa-solid ${notif.icone}"></i></span>
                 <div style="flex:1">
                     <div style="font-weight:700;font-size:13px;color:${notif.couleur}">
                         ${notif.titre}
@@ -295,7 +295,7 @@
                 </div>
                 <button onclick="this.parentElement.parentElement.remove()"
                         style="background:none;border:none;cursor:pointer;
-                               color:#94a3b8;font-size:16px;padding:0">✕</button>
+                               color:#94a3b8;font-size:16px;padding:0"><i class="fa-solid fa-xmark"></i></button>
             </div>
         `;
         if (notif.lien) {

@@ -73,7 +73,7 @@
     {{-- Activité 7 derniers jours --}}
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">📅 Réservations — 7 derniers jours</div>
+            <div class="panel-title"><i class="fa-solid fa-calendar-days"></i> Réservations — 7 derniers jours</div>
         </div>
         <div class="panel-body">
             @php
@@ -119,7 +119,7 @@
     {{-- Revenus 6 derniers mois --}}
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">💰 Revenus — 6 derniers mois</div>
+            <div class="panel-title"><i class="fa-solid fa-sack-dollar"></i> Revenus — 6 derniers mois</div>
         </div>
         <div class="panel-body">
             @php
@@ -170,7 +170,7 @@
     {{-- Prochaines rencontres --}}
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">🗓️ Prochaines rencontres</div>
+            <div class="panel-title"><i class="fa-solid fa-calendar-check"></i> Prochaines rencontres</div>
             <a href="{{ route('reservations.create') }}" class="btn btn-primary btn-sm">
                 + Nouvelle
             </a>
@@ -228,7 +228,7 @@
     {{-- Derniers paiements --}}
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">💰 Derniers paiements</div>
+            <div class="panel-title"><i class="fa-solid fa-sack-dollar"></i> Derniers paiements</div>
             <a href="{{ route('paiements.create') }}" class="btn btn-success btn-sm">
                 + Paiement
             </a>
@@ -290,7 +290,7 @@
     {{-- Top équipes --}}
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">🏆 Top équipes</div>
+            <div class="panel-title"><i class="fa-solid fa-trophy"></i> Top équipes</div>
             <a href="{{ route('equipes.index') }}" class="btn btn-outline btn-sm">
                 Voir tout
             </a>
@@ -401,7 +401,7 @@
         display:flex;align-items:center;justify-content:space-between;
     ">
         <div style="display:flex;align-items:center;gap:10px">
-            <span style="font-size:20px">⚠️</span>
+            <span style="font-size:20px"><i class="fa-solid fa-triangle-exclamation"></i></span>
             <div>
                 <div style="font-weight:700;color:#b91c1c">
                     {{ $stats['impayes_count'] }} paiement(s) impayé(s)

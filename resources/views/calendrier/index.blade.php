@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">📅 Calendrier des réservations</div>
+        <div class="page-title"><i class="fa-solid fa-calendar-days"></i> Calendrier des réservations</div>
         <div class="page-subtitle">Visualisez les journées disponibles et réservées</div>
     </div>
     <a href="{{ route('reservations.create') }}" class="btn btn-primary">+ Nouvelle réservation</a>

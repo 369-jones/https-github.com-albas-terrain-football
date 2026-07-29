@@ -6,10 +6,10 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">🧾 Reçu de paiement</div>
+        <div class="page-title"><i class="fa-solid fa-file-invoice"></i> Reçu de paiement</div>
     </div>
     <div style="display:flex;gap:10px">
-        <button onclick="window.print()" class="btn btn-primary">🖨 Imprimer</button>
+        <button onclick="window.print()" class="btn btn-primary"><i class="fa-solid fa-print"></i> Imprimer</button>
         <a href="{{ route('paiements.index') }}" class="btn btn-outline">← Retour</a>
     </div>
 </div>
@@ -22,7 +22,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;
                         border-bottom:3px solid #2563eb;padding-bottom:20px;margin-bottom:24px">
                 <div>
-                    <div style="font-size:32px">⚽</div>
+                    <div style="font-size:32px"><i class="fa-solid fa-futbol"></i></div>
                     <div style="font-size:22px;font-weight:800;color:#2563eb">
                         {{ config('app.name') }}
                     </div>
@@ -148,14 +148,14 @@
                             border:3px solid #16a34a;border-radius:8px;
                             color:#16a34a;font-weight:800;font-size:18px;
                             transform:rotate(-5deg)">
-                    ✓ PAYÉ
+                    <i class="fa-solid fa-circle-check"></i> PAYÉ
                 </div>
                 @else
                 <div style="display:inline-block;padding:8px 28px;
                             border:3px solid #ea580c;border-radius:8px;
                             color:#ea580c;font-weight:800;font-size:16px;
                             transform:rotate(-5deg)">
-                    ⚠ PAIEMENT PARTIEL
+                    <i class="fa-solid fa-triangle-exclamation"></i> PAIEMENT PARTIEL
                 </div>
                 @endif
             </div>

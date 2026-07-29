@@ -32,14 +32,14 @@ class Notification extends Model
         return $query->orderByDesc('created_at');
     }
 
-    // ── Icône selon le type ───────────────────────
+    // ── Icône (classe Font Awesome) selon le type ─
     public function icone(): string
     {
         return match ($this->type) {
-            'success' => '✅',
-            'warning' => '⚠️',
-            'danger' => '❌',
-            default => 'ℹ️',
+            'success' => 'fa-circle-check',
+            'warning' => 'fa-triangle-exclamation',
+            'danger' => 'fa-circle-xmark',
+            default => 'fa-circle-info',
         };
     }
 

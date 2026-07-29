@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">💰 Enregistrer un paiement</div>
+        <div class="page-title"><i class="fa-solid fa-sack-dollar"></i> Enregistrer un paiement</div>
         <div class="page-subtitle">Associer un paiement à une réservation</div>
     </div>
     <a href="{{ route('paiements.index') }}" class="btn btn-outline">← Retour</a>
@@ -14,7 +14,7 @@
 
 <div class="panel">
     <div class="panel-header">
-        <div class="panel-title">📋 Informations du paiement</div>
+        <div class="panel-title"><i class="fa-solid fa-clipboard-list"></i> Informations du paiement</div>
     </div>
     <div class="panel-body">
         <form method="POST" action="{{ route('paiements.store') }}">
@@ -91,7 +91,7 @@
             </div>
 
             <div style="display:flex;gap:10px;margin-top:8px">
-                <button type="submit" class="btn btn-success">✅ Enregistrer le paiement</button>
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-check"></i> Enregistrer le paiement</button>
                 <a href="{{ route('paiements.index') }}" class="btn btn-outline">Annuler</a>
             </div>
         </form>

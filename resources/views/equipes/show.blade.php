@@ -6,11 +6,11 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">👥 {{ $equipe->nom }}</div>
+        <div class="page-title"><i class="fa-solid fa-people-group"></i> {{ $equipe->nom }}</div>
         <div class="page-subtitle">Détails et historique des rencontres</div>
     </div>
     <div style="display:flex;gap:10px">
-        <a href="{{ route('equipes.edit', $equipe) }}" class="btn btn-primary">✏ Modifier</a>
+        <a href="{{ route('equipes.edit', $equipe) }}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Modifier</a>
         <a href="{{ route('equipes.index') }}" class="btn btn-outline">← Retour</a>
     </div>
 </div>
@@ -18,7 +18,7 @@
 <div class="two-cols">
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">📋 Informations</div>
+            <div class="panel-title"><i class="fa-solid fa-clipboard-list"></i> Informations</div>
         </div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">
@@ -58,7 +58,7 @@
 
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">📊 Statistiques</div>
+            <div class="panel-title"><i class="fa-solid fa-chart-pie"></i> Statistiques</div>
         </div>
         <div class="panel-body">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
@@ -82,7 +82,7 @@
 {{-- HISTORIQUE RESERVATIONS --}}
 <div class="panel">
     <div class="panel-header">
-        <div class="panel-title">🗓️ Historique des rencontres</div>
+        <div class="panel-title"><i class="fa-solid fa-calendar-check"></i> Historique des rencontres</div>
     </div>
     <div class="table-wrap">
         <table>

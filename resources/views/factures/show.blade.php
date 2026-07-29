@@ -6,18 +6,18 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">🧾 {{ $facture->numero_facture }}</div>
+        <div class="page-title"><i class="fa-solid fa-file-invoice"></i> {{ $facture->numero_facture }}</div>
         <div class="page-subtitle">Détail de la facture</div>
     </div>
     <div style="display:flex;gap:10px">
-        <a href="{{ route('factures.pdf', $facture) }}" class="btn btn-primary">🧾 Voir PDF</a>
+        <a href="{{ route('factures.pdf', $facture) }}" class="btn btn-primary"><i class="fa-solid fa-file-invoice"></i> Voir PDF</a>
         <a href="{{ route('factures.index') }}" class="btn btn-outline">← Retour</a>
     </div>
 </div>
 
 <div class="two-cols">
     <div class="panel">
-        <div class="panel-header"><div class="panel-title">📋 Informations</div></div>
+        <div class="panel-header"><div class="panel-title"><i class="fa-solid fa-clipboard-list"></i> Informations</div></div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">
                 <tr style="border-bottom:1px solid #f1f5f9">
@@ -45,7 +45,7 @@
     </div>
 
     <div class="panel">
-        <div class="panel-header"><div class="panel-title">🗓️ Réservation</div></div>
+        <div class="panel-header"><div class="panel-title"><i class="fa-solid fa-calendar-check"></i> Réservation</div></div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">
                 <tr style="border-bottom:1px solid #f1f5f9">

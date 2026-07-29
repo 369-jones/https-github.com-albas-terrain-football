@@ -6,13 +6,13 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">📋 Détail de la réservation</div>
+        <div class="page-title"><i class="fa-solid fa-clipboard-list"></i> Détail de la réservation</div>
         <div class="page-subtitle">
             {{ $reservation->equipeA->nom }} vs {{ $reservation->equipeB->nom }}
         </div>
     </div>
     <div style="display:flex;gap:10px">
-        <a href="{{ route('reservations.edit', $reservation) }}" class="btn btn-primary">✏ Modifier</a>
+        <a href="{{ route('reservations.edit', $reservation) }}" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Modifier</a>
         <a href="{{ route('reservations.index') }}" class="btn btn-outline">← Retour</a>
     </div>
 </div>
@@ -20,7 +20,7 @@
 <div class="two-cols">
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">🗓️ Informations</div>
+            <div class="panel-title"><i class="fa-solid fa-calendar-check"></i> Informations</div>
         </div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">
@@ -72,7 +72,7 @@
 
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">💰 Paiement</div>
+            <div class="panel-title"><i class="fa-solid fa-sack-dollar"></i> Paiement</div>
             @if(!$reservation->paiement || $reservation->paiement->statut !== 'paye')
             <a href="{{ route('paiements.create') }}?reservation_id={{ $reservation->id }}"
                class="btn btn-success btn-sm">+ Enregistrer paiement</a>
@@ -112,13 +112,13 @@
             <div style="margin-top:16px">
                 <a href="{{ route('factures.pdf', $reservation->facture) }}"
                    class="btn btn-primary" style="width:100%;justify-content:center">
-                    🧾 Voir la facture PDF
+                    <i class="fa-solid fa-file-invoice"></i> Voir la facture PDF
                 </a>
             </div>
             @endif
             @else
             <div style="text-align:center;padding:30px;color:#94a3b8">
-                <div style="font-size:32px;margin-bottom:8px">💰</div>
+                <div style="font-size:32px;margin-bottom:8px"><i class="fa-solid fa-sack-dollar"></i></div>
                 <div>Aucun paiement enregistré</div>
                 <a href="{{ route('paiements.create') }}?reservation_id={{ $reservation->id }}"
                    class="btn btn-success" style="margin-top:12px">

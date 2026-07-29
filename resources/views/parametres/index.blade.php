@@ -4,13 +4,13 @@
 
 @section('content')
 
-<div class="page-title">⚙️ Paramètres</div>
+<div class="page-title"><i class="fa-solid fa-gear"></i> Paramètres</div>
 <div class="page-subtitle">Configuration du compte administrateur</div>
 
 <div class="two-cols">
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">👤 Informations du compte</div>
+            <div class="panel-title"><i class="fa-solid fa-user"></i> Informations du compte</div>
         </div>
         <div class="panel-body">
             <form method="POST" action="{{ route('parametres.update') }}">
@@ -40,14 +40,14 @@
                     <input type="password" name="password_confirmation"
                            placeholder="Confirmer le mot de passe">
                 </div>
-                <button type="submit" class="btn btn-primary">💾 Mettre à jour</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Mettre à jour</button>
             </form>
         </div>
     </div>
 
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">ℹ️ Informations du système</div>
+            <div class="panel-title"><i class="fa-solid fa-circle-info"></i> Informations du système</div>
         </div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">

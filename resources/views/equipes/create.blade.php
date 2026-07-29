@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">➕ Nouvelle équipe</div>
+        <div class="page-title"><i class="fa-solid fa-circle-plus"></i> Nouvelle équipe</div>
         <div class="page-subtitle">Inscrire une nouvelle équipe</div>
     </div>
     <a href="{{ route('equipes.index') }}" class="btn btn-outline">← Retour</a>
@@ -14,7 +14,7 @@
 
 <div class="panel">
     <div class="panel-header">
-        <div class="panel-title">📋 Informations de l'équipe</div>
+        <div class="panel-title"><i class="fa-solid fa-clipboard-list"></i> Informations de l'équipe</div>
     </div>
     <div class="panel-body">
         <form method="POST" action="{{ route('equipes.store') }}">
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div style="display:flex;gap:10px;margin-top:8px">
-                <button type="submit" class="btn btn-primary">💾 Enregistrer l'équipe</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Enregistrer l'équipe</button>
                 <a href="{{ route('equipes.index') }}" class="btn btn-outline">Annuler</a>
             </div>
         </form>

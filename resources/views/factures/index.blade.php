@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">🧾 Factures & Reçus</div>
+        <div class="page-title"><i class="fa-solid fa-file-invoice"></i> Factures & Reçus</div>
         <div class="page-subtitle">Consultez et téléchargez les factures générées</div>
     </div>
 </div>
@@ -47,9 +47,9 @@
                     <td>
                         <div class="actions">
                             <a href="{{ route('factures.show', $f) }}"
-                               class="btn btn-outline btn-sm">👁 Voir</a>
+                               class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Voir</a>
                             <a href="{{ route('factures.pdf', $f) }}"
-                               class="btn btn-primary btn-sm">🧾 PDF</a>
+                               class="btn btn-primary btn-sm"><i class="fa-solid fa-file-invoice"></i> PDF</a>
                         </div>
                     </td>
                 </tr>

@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">💰 Paiements</div>
+        <div class="page-title"><i class="fa-solid fa-sack-dollar"></i> Paiements</div>
         <div class="page-subtitle">Historique de tous les paiements enregistrés</div>
     </div>
     <a href="{{ route('paiements.create') }}" class="btn btn-success">+ Enregistrer un paiement</a>
@@ -62,10 +62,10 @@
                     <td>
                         <div class="actions">
                             <a href="{{ route('paiements.show', $p) }}"
-                               class="btn btn-outline btn-sm">👁 Voir</a>
+                               class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Voir</a>
                             @if($p->statut === 'paye' && $p->facture)
                             <a href="{{ route('factures.pdf', $p->facture) }}"
-                               class="btn btn-primary btn-sm">🧾 Reçu</a>
+                               class="btn btn-primary btn-sm"><i class="fa-solid fa-file-invoice"></i> Reçu</a>
                             @endif
                         </div>
                     </td>

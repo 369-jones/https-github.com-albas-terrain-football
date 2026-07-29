@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">💰 Détail du paiement</div>
+        <div class="page-title"><i class="fa-solid fa-sack-dollar"></i> Détail du paiement</div>
         <div class="page-subtitle">
             {{ $paiement->reservation->equipeA->nom }}
             vs {{ $paiement->reservation->equipeB->nom }}
@@ -15,7 +15,7 @@
     <div style="display:flex;gap:10px">
         @if($paiement->statut === 'paye' && $paiement->facture)
         <a href="{{ route('factures.pdf', $paiement->facture) }}" class="btn btn-primary">
-            🧾 Voir la facture
+            <i class="fa-solid fa-file-invoice"></i> Voir la facture
         </a>
         @endif
         <a href="{{ route('paiements.index') }}" class="btn btn-outline">← Retour</a>
@@ -25,7 +25,7 @@
 <div class="two-cols">
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">💰 Informations du paiement</div>
+            <div class="panel-title"><i class="fa-solid fa-sack-dollar"></i> Informations du paiement</div>
         </div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">
@@ -75,7 +75,7 @@
 
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">🗓️ Réservation liée</div>
+            <div class="panel-title"><i class="fa-solid fa-calendar-check"></i> Réservation liée</div>
         </div>
         <div class="panel-body">
             <table style="width:100%;font-size:14px">

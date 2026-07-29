@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">🔔 Notifications</div>
+        <div class="page-title"><i class="fa-solid fa-bell"></i> Notifications</div>
         <div class="page-subtitle">
             {{ $non_lues }} notification(s) non lue(s)
         </div>
@@ -15,13 +15,13 @@
         @if($non_lues > 0)
         <form method="POST" action="{{ route('notifications.lire-tout') }}">
             @csrf
-            <button class="btn btn-primary">✅ Tout marquer comme lu</button>
+            <button class="btn btn-primary"><i class="fa-solid fa-check"></i> Tout marquer comme lu</button>
         </form>
         @endif
         <form method="POST" action="{{ route('notifications.destroy-lues') }}"
               onsubmit="return confirm('Supprimer toutes les notifications lues ?')">
             @csrf @method('DELETE')
-            <button class="btn btn-danger">🗑 Supprimer les lues</button>
+            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer les lues</button>
         </form>
     </div>
 </div>
@@ -42,9 +42,9 @@
                 width:40px;height:40px;border-radius:10px;
                 background:{{ $n->background() }};border:1px solid {{ $n->border() }};
                 display:flex;align-items:center;justify-content:center;
-                font-size:18px;flex-shrink:0;
+                font-size:18px;flex-shrink:0;color:{{ $n->couleur() }};
             ">
-                {{ $n->icone() }}
+                <i class="fa-solid {{ $n->icone() }}"></i>
             </div>
 
             {{-- CONTENU --}}
@@ -67,7 +67,7 @@
                     {{ $n->message }}
                 </div>
                 <div style="font-size:11px;color:#94a3b8">
-                    🕐 {{ $n->created_at->diffForHumans() }}
+                    <i class="fa-regular fa-clock"></i> {{ $n->created_at->diffForHumans() }}
                     @if($n->lue && $n->lue_at)
                     · Lu le {{ $n->lue_at->format('d/m/Y à H:i') }}
                     @endif
@@ -79,19 +79,19 @@
                 @if(!$n->lue)
                 <form method="POST" action="{{ route('notifications.lire', $n) }}">
                     @csrf
-                    <button class="btn btn-outline btn-sm" title="Marquer comme lu">✓</button>
+                    <button class="btn btn-outline btn-sm" title="Marquer comme lu"><i class="fa-solid fa-check"></i></button>
                 </form>
                 @endif
                 <form method="POST" action="{{ route('notifications.destroy', $n) }}"
                       onsubmit="return confirm('Supprimer ?')">
                     @csrf @method('DELETE')
-                    <button class="btn btn-danger btn-sm" title="Supprimer">🗑</button>
+                    <button class="btn btn-danger btn-sm" title="Supprimer"><i class="fa-solid fa-trash"></i></button>
                 </form>
             </div>
         </div>
         @empty
         <div style="text-align:center;padding:60px;color:#94a3b8">
-            <div style="font-size:48px;margin-bottom:12px">🔔</div>
+            <div style="font-size:48px;margin-bottom:12px"><i class="fa-solid fa-bell"></i></div>
             <div style="font-size:16px;font-weight:700;margin-bottom:6px">
                 Aucune notification
             </div>

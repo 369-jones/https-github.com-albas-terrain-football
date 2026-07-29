@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">👥 Équipes</div>
+        <div class="page-title"><i class="fa-solid fa-people-group"></i> Équipes</div>
         <div class="page-subtitle">Gérez les équipes inscrites</div>
     </div>
     <a href="{{ route('equipes.create') }}" class="btn btn-primary">+ Nouvelle équipe</a>
@@ -56,13 +56,13 @@
                     <td>
                         <div class="actions">
                             <a href="{{ route('equipes.show', $equipe) }}"
-                               class="btn btn-outline btn-sm">👁 Voir</a>
+                               class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Voir</a>
                             <a href="{{ route('equipes.edit', $equipe) }}"
-                               class="btn btn-primary btn-sm">✏ Modifier</a>
+                               class="btn btn-primary btn-sm"><i class="fa-solid fa-pen"></i> Modifier</a>
                             <form method="POST" action="{{ route('equipes.destroy', $equipe) }}"
                                   onsubmit="return confirm('Supprimer cette équipe ?')">
                                 @csrf @method('DELETE')
-                                <button class="btn btn-danger btn-sm">🗑</button>
+                                <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </div>
                     </td>

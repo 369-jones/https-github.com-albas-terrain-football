@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">🗓️ Réservations</div>
+        <div class="page-title"><i class="fa-solid fa-calendar-check"></i> Réservations</div>
         <div class="page-subtitle">Gérez toutes les rencontres programmées</div>
     </div>
     <a href="{{ route('reservations.create') }}" class="btn btn-primary">+ Nouvelle réservation</a>
@@ -56,18 +56,18 @@
                     <td>
                         <div class="actions">
                             <a href="{{ route('reservations.show', $r) }}"
-                               class="btn btn-outline btn-sm">👁</a>
+                               class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i></a>
                             <a href="{{ route('reservations.edit', $r) }}"
-                               class="btn btn-primary btn-sm">✏</a>
+                               class="btn btn-primary btn-sm"><i class="fa-solid fa-pen"></i></a>
                             @if(!$r->paiement || $r->paiement->statut !== 'paye')
                             <a href="{{ route('paiements.create') }}?reservation_id={{ $r->id }}"
-                               class="btn btn-success btn-sm">💰</a>
+                               class="btn btn-success btn-sm"><i class="fa-solid fa-sack-dollar"></i></a>
                             @endif
                             @if($r->statut !== 'annule')
                             <form method="POST" action="{{ route('reservations.destroy', $r) }}"
                                   onsubmit="return confirm('Annuler cette réservation ?')">
                                 @csrf @method('DELETE')
-                                <button class="btn btn-danger btn-sm">✕</button>
+                                <button class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i></button>
                             </form>
                             @endif
                         </div>

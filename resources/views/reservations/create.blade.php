@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">➕ Nouvelle réservation</div>
+        <div class="page-title"><i class="fa-solid fa-circle-plus"></i> Nouvelle réservation</div>
         <div class="page-subtitle">Programmer une rencontre sur le terrain</div>
     </div>
     <a href="{{ route('reservations.index') }}" class="btn btn-outline">← Retour</a>
@@ -14,7 +14,7 @@
 
 <div class="panel">
     <div class="panel-header">
-        <div class="panel-title">📋 Informations de la rencontre</div>
+        <div class="panel-title"><i class="fa-solid fa-clipboard-list"></i> Informations de la rencontre</div>
     </div>
     <div class="panel-body">
         <form method="POST" action="{{ route('reservations.store') }}">
@@ -105,7 +105,7 @@
                 <textarea name="notes" placeholder="Informations complémentaires...">{{ old('notes') }}</textarea>
             </div>
             <div style="display:flex;gap:10px">
-                <button type="submit" class="btn btn-primary">💾 Enregistrer la réservation</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Enregistrer la réservation</button>
                 <a href="{{ route('reservations.index') }}" class="btn btn-outline">Annuler</a>
             </div>
         </form>

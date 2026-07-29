@@ -94,7 +94,7 @@
 
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">📊 Répartition des statuts</div>
+            <div class="panel-title"><i class="fa-solid fa-chart-pie"></i> Répartition des statuts</div>
         </div>
         <div class="panel-body">
             @php
@@ -105,7 +105,7 @@
             @endphp
             <div style="margin-bottom:16px">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
-                    <span style="font-weight:700;color:#15803d">✅ Confirmés</span>
+                    <span style="font-weight:700;color:#15803d"><i class="fa-solid fa-circle-check"></i> Confirmés</span>
                     <span>{{ $stats['confirmes'] }} ({{ $pctConf }}%)</span>
                 </div>
                 <div style="background:#f1f5f9;border-radius:20px;height:10px">
@@ -125,7 +125,7 @@
             </div>
             <div>
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
-                    <span style="font-weight:700;color:#b91c1c">❌ Annulés</span>
+                    <span style="font-weight:700;color:#b91c1c"><i class="fa-solid fa-circle-xmark"></i> Annulés</span>
                     <span>{{ $stats['annules'] }} ({{ $pctAnn }}%)</span>
                 </div>
                 <div style="background:#f1f5f9;border-radius:20px;height:10px">

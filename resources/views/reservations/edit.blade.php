@@ -6,7 +6,7 @@
 
 <div class="flex-between">
     <div>
-        <div class="page-title">✏ Modifier la réservation</div>
+        <div class="page-title"><i class="fa-solid fa-pen"></i> Modifier la réservation</div>
         <div class="page-subtitle">{{ $reservation->equipeA->nom }} vs {{ $reservation->equipeB->nom }}</div>
     </div>
     <a href="{{ route('reservations.index') }}" class="btn btn-outline">← Retour</a>
@@ -14,7 +14,7 @@
 
 <div class="panel">
     <div class="panel-header">
-        <div class="panel-title">📋 Informations de la rencontre</div>
+        <div class="panel-title"><i class="fa-solid fa-clipboard-list"></i> Informations de la rencontre</div>
     </div>
     <div class="panel-body">
         <form method="POST" action="{{ route('reservations.update', $reservation) }}">
@@ -100,7 +100,7 @@
                 </textarea>
             </div>
             <div style="display:flex;gap:10px">
-                <button type="submit" class="btn btn-primary">💾 Mettre à jour</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Mettre à jour</button>
                 <a href="{{ route('reservations.index') }}" class="btn btn-outline">Annuler</a>
             </div>
         </form>
