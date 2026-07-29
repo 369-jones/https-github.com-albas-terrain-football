@@ -2,7 +2,23 @@
     $pitch = $pitch ?? null;
     $name = fn ($locale) => old("name_{$locale}", $pitch?->name[$locale] ?? '');
     $description = fn ($locale) => old("description_{$locale}", $pitch?->description[$locale] ?? '');
+    $selectedSport = old('sport', $pitch->sport ?? 'football');
 @endphp
+
+<div x-data="{ sport: '{{ $selectedSport }}' }">
+    <label class="block text-sm font-medium mb-2">{{ __('Sport') }}</label>
+    <div class="flex flex-wrap gap-2">
+        @foreach (\App\Http\Controllers\PitchController::SPORTS as $sport)
+            <label class="flex items-center gap-2 text-sm border rounded-xl px-4 py-2.5 cursor-pointer transition-colors"
+                   :class="sport === '{{ $sport }}' ? 'border-pitch-600 bg-pitch-50 text-pitch-800' : 'border-line'">
+                <input type="radio" name="sport" value="{{ $sport }}" x-model="sport" class="sr-only">
+                <i class="fa-solid {{ $sport === 'basketball' ? 'fa-basketball' : ($sport === 'volleyball' ? 'fa-volleyball' : 'fa-futbol') }}"></i>
+                {{ ucfirst($sport) }}
+            </label>
+        @endforeach
+    </div>
+    @error('sport') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+</div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div>
@@ -62,7 +78,7 @@
     <div>
         <label class="block text-sm font-medium mb-1">{{ __('Surface') }}</label>
         <select name="surface_type" class="w-full border border-line rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-pitch-500">
-            @foreach (['natural_grass', 'synthetic_turf', 'concrete', 'indoor'] as $type)
+            @foreach (\App\Http\Controllers\PitchController::SURFACE_TYPES as $type)
                 <option value="{{ $type }}" @selected(old('surface_type', $pitch->surface_type ?? 'synthetic_turf') === $type)>
                     {{ ucfirst(str_replace('_', ' ', $type)) }}
                 </option>
@@ -71,7 +87,7 @@
     </div>
     <div>
         <label class="block text-sm font-medium mb-1">{{ __('Capacity') }}</label>
-        <input type="number" name="capacity" min="4" max="22" value="{{ old('capacity', $pitch->capacity ?? 5) }}" required
+        <input type="number" name="capacity" min="2" max="22" value="{{ old('capacity', $pitch->capacity ?? 5) }}" required
                class="w-full border border-line rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-pitch-500">
     </div>
     <div>

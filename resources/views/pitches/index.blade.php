@@ -6,21 +6,38 @@
         $hasFilters = request()->anyFilled(['surface', 'capacity', 'amenities', 'min_price', 'max_price', 'date']);
         $selectedSurfaces = (array) request('surface', []);
         $selectedAmenities = (array) request('amenities', []);
+        $selectedSport = request('sport');
+        $sportIcons = ['football' => 'fa-futbol', 'basketball' => 'fa-basketball', 'volleyball' => 'fa-volleyball'];
     @endphp
 
     <section class="bg-pitch-900 text-sand-100 relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10">
             <p class="font-score uppercase tracking-widest text-amber-signal text-sm mb-3">
-                {{ now()->format('l, H:i') }} — {{ __('kickoff is closer than you think') }}
+                {{ now()->format('l, H:i') }} — {{ __('game time is closer than you think') }}
             </p>
             <h1 class="font-display font-bold text-4xl sm:text-5xl leading-[1.05] max-w-2xl">
-                {{ __('Find a pitch. Lock the slot. Play tonight.') }}
+                {{ __('Find a venue. Lock the slot. Play tonight.') }}
             </h1>
             <p class="mt-4 text-sand-100/80 max-w-xl">
-                {{ __('Search verified 5-a-side, 7-a-side and 11-a-side pitches near you, and pay by card or Mobile Money in seconds.') }}
+                {{ __('Search verified football pitches, basketball and volleyball courts near you, and pay by card or Mobile Money in seconds.') }}
             </p>
 
-            <form method="GET" action="{{ route('home') }}" x-data="{ open: {{ $hasFilters ? 'true' : 'false' }} }" class="mt-8 max-w-2xl">
+            {{-- Sport chooser — the primary way to narrow what you're booking --}}
+            <div class="flex flex-wrap gap-2 mt-6" role="group" aria-label="{{ __('Sport') }}">
+                <a href="{{ request()->fullUrlWithQuery(['sport' => null]) }}"
+                   class="flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full border transition-colors {{ ! $selectedSport ? 'bg-white text-pitch-900 border-white' : 'border-sand-100/30 text-sand-100/80 hover:border-sand-100/60' }}">
+                    {{ __('All sports') }}
+                </a>
+                @foreach (\App\Http\Controllers\PitchController::SPORTS as $sport)
+                    <a href="{{ request()->fullUrlWithQuery(['sport' => $sport]) }}"
+                       class="flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full border transition-colors {{ $selectedSport === $sport ? 'bg-white text-pitch-900 border-white' : 'border-sand-100/30 text-sand-100/80 hover:border-sand-100/60' }}">
+                        <i class="fa-solid {{ $sportIcons[$sport] }}"></i> {{ __(ucfirst($sport)) }}
+                    </a>
+                @endforeach
+            </div>
+
+            <form method="GET" action="{{ route('home') }}" x-data="{ open: {{ $hasFilters ? 'true' : 'false' }} }" class="mt-4 max-w-2xl">
+                <input type="hidden" name="sport" value="{{ $selectedSport }}">
                 <div class="bg-sand-100 rounded-2xl p-2 flex flex-col sm:flex-row gap-2">
                     <input type="text" name="q" value="{{ request('q') }}"
                            placeholder="{{ __('City or neighborhood') }}"
@@ -45,22 +62,6 @@
                         <label class="block text-xs font-semibold uppercase tracking-wide text-ink/50 mb-1.5">{{ __('Date') }}</label>
                         <input type="date" name="date" value="{{ request('date') }}" min="{{ now()->toDateString() }}"
                                class="border border-line rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-pitch-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-wide text-ink/50 mb-1.5">{{ __('Format') }}</label>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach ([5 => '5v5', 7 => '7v7', 11 => '11v11'] as $value => $label)
-                                <label class="flex items-center gap-1.5 text-sm bg-white border border-line rounded-full px-3 py-1.5 cursor-pointer has-[:checked]:border-pitch-600 has-[:checked]:bg-pitch-50">
-                                    <input type="radio" name="capacity" value="{{ $value }}" class="sr-only" @checked(request('capacity') == $value)>
-                                    {{ $label }}
-                                </label>
-                            @endforeach
-                            <label class="flex items-center gap-1.5 text-sm bg-white border border-line rounded-full px-3 py-1.5 cursor-pointer has-[:checked]:border-pitch-600 has-[:checked]:bg-pitch-50">
-                                <input type="radio" name="capacity" value="" class="sr-only" @checked(! request('capacity'))>
-                                {{ __('Any') }}
-                            </label>
-                        </div>
                     </div>
 
                     <div>
@@ -120,11 +121,11 @@
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div class="flex items-baseline justify-between mb-6 gap-4 flex-wrap">
             <h2 class="font-display font-bold text-2xl">
-                {{ request('q') ? __('Results for :query', ['query' => request('q')]) : __('Popular pitches') }}
+                {{ request('q') ? __('Results for :query', ['query' => request('q')]) : __('Popular venues') }}
             </h2>
 
             <div class="flex items-center gap-3">
-                <span class="text-sm text-ink/50">{{ trans_choice(':count pitch|:count pitches', $pitches->total(), ['count' => $pitches->total()]) }}</span>
+                <span class="text-sm text-ink/50">{{ trans_choice(':count venue|:count venues', $pitches->total(), ['count' => $pitches->total()]) }}</span>
 
                 <form method="GET" action="{{ route('home') }}">
                     @foreach (request()->except(['sort', 'page']) as $key => $value)
@@ -145,7 +146,7 @@
 
         @if ($pitches->isEmpty())
             <div class="text-center py-16 border border-dashed border-line rounded-2xl">
-                <p class="font-display text-xl mb-1">{{ __('No pitches found here yet.') }}</p>
+                <p class="font-display text-xl mb-1">{{ __('No venues found here yet.') }}</p>
                 <p class="text-ink/60 text-sm">{{ __('Try different filters, or check back soon.') }}</p>
                 @if ($hasFilters || request('q'))
                     <a href="{{ route('home') }}" class="inline-block mt-3 text-pitch-700 font-medium hover:underline">{{ __('Clear filters') }}</a>

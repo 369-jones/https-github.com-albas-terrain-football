@@ -11,23 +11,6 @@
 
     {{-- NAVIGATION --}}
     <nav class="sidebar-nav">
-        @php
-            $notifCount = \App\Models\Notification::nonLues()->count();
-        @endphp
-
-        <a href="{{ route('notifications.index') }}"
-            class="nav-item {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
-            <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
-            <span>Notifications</span>
-            @if($notifCount > 0)
-            <span id="notif-badge" style="
-                margin-left:auto;background:#dc2626;color:white;
-                border-radius:20px;font-size:10px;font-weight:800;
-                padding:2px 7px;
-            ">{{ $notifCount }}</span>
-            @endif
-        </a>
-
         {{-- PRINCIPAL --}}
         <div class="nav-section">Principal</div>
 

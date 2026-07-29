@@ -39,7 +39,11 @@ class CurrencyService
     /**
      * Exchange rates relative to the base currency, cached for
      * config('currencies.rate_cache_ttl_hours') hours.
-     * Swap the provider below for whichever exchange-rate API you use in production.
+     *
+     * Provider: open.er-api.com (exchangerate-api.com's free "open" endpoint) — no API
+     * key, updates once/day, and actually carries CDF (unlike several free providers).
+     * api.exchangerate.host used to work here too but now requires a paid key — if you
+     * swap providers again, verify with a raw curl first, don't assume the schema matches.
      */
     public function rates(): array
     {
@@ -47,22 +51,46 @@ class CurrencyService
             config('currencies.rate_cache_key'),
             now()->addHours(config('currencies.rate_cache_ttl_hours')),
             function () {
-                try {
-                    $base = config('currencies.base');
-                    $response = Http::timeout(5)->get("https://api.exchangerate.host/latest", [
-                        'base' => $base,
-                    ]);
+                $base = config('currencies.base');
 
-                    if ($response->successful()) {
-                        return $response->json('rates', []);
+                try {
+                    $response = Http::timeout(5)->get("https://open.er-api.com/v6/latest/{$base}");
+
+                    if ($response->successful() && $response->json('result') === 'success') {
+                        $rates = $response->json('rates', []);
+
+                        if (! empty($rates)) {
+                            return $rates;
+                        }
                     }
+
+                    Log::warning('Exchange rate API returned an unusable response.', ['body' => $response->body()]);
                 } catch (\Throwable $e) {
                     Log::warning('Exchange rate fetch failed: '.$e->getMessage());
                 }
 
-                // Fallback: identity rates so the app keeps working if the API is down.
-                return array_fill_keys(array_keys(config('currencies.supported')), 1);
+                return $this->fallbackRates($base);
             }
         );
+    }
+
+    /**
+     * Used only if the live API is unreachable. Identity (1:1) is a reasonable fallback
+     * for currencies close in value, but USD/CDF differ by three orders of magnitude —
+     * falling back to 1:1 there would show a $15/hr pitch as 15 CDF/hr, wildly misleading
+     * rather than just stale. These are approximate mid-2026 rates, not live figures.
+     */
+    private function fallbackRates(string $base): array
+    {
+        $approxToUsd = [
+            'USD' => 1,
+            'CDF' => 2270,
+        ];
+
+        $baseRate = $approxToUsd[$base] ?? 1;
+
+        return collect($approxToUsd)
+            ->mapWithKeys(fn ($rate, $currency) => [$currency => $rate / $baseRate])
+            ->all();
     }
 }

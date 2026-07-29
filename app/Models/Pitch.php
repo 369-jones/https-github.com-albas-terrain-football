@@ -13,7 +13,7 @@ class Pitch extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'owner_id', 'slug', 'name', 'description', 'country', 'city', 'address',
+        'owner_id', 'slug', 'sport', 'name', 'description', 'country', 'city', 'address',
         'latitude', 'longitude', 'surface_type', 'capacity', 'amenities',
         'price_per_hour', 'currency', 'is_active',
     ];
@@ -45,6 +45,15 @@ class Pitch extends Model
         $descriptions = $this->description ?? [];
 
         return $descriptions[$locale] ?? $descriptions['fr'] ?? $descriptions['en'] ?? null;
+    }
+
+    public function sportIcon(): string
+    {
+        return match ($this->sport) {
+            'basketball' => 'fa-basketball',
+            'volleyball' => 'fa-volleyball',
+            default => 'fa-futbol',
+        };
     }
 
     public function owner(): BelongsTo

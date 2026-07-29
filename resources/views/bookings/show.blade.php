@@ -33,7 +33,7 @@
                     <p class="font-semibold">{{ $booking->booking_date->translatedFormat('D d M') }}</p>
                 </div>
                 <div>
-                    <p class="text-xs text-sand-100/50 uppercase">{{ __('Kickoff') }}</p>
+                    <p class="text-xs text-sand-100/50 uppercase">{{ __('Time') }}</p>
                     <p class="font-semibold">{{ $booking->start_time }}–{{ $booking->end_time }}</p>
                 </div>
             </div>

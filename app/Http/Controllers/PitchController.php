@@ -21,7 +21,8 @@ class PitchController extends Controller
     private const CLOSE_HOUR = 23;
 
     public const AMENITIES = ['lighting', 'parking', 'showers', 'equipment_rental'];
-    public const SURFACE_TYPES = ['natural_grass', 'synthetic_turf', 'concrete', 'indoor'];
+    public const SURFACE_TYPES = ['natural_grass', 'synthetic_turf', 'concrete', 'indoor', 'hardwood', 'sand'];
+    public const SPORTS = ['football', 'basketball', 'volleyball'];
 
     public function index(Request $request, CurrencyService $currencyService): View
     {
@@ -31,6 +32,12 @@ class PitchController extends Controller
             ->with('images')
             ->withAvg('reviews', 'rating')
             ->where('is_active', true)
+            ->when($request->filled('sport'), function ($q) use ($request) {
+                $sports = array_intersect((array) $request->input('sport'), self::SPORTS);
+                if ($sports) {
+                    $q->whereIn('sport', $sports);
+                }
+            })
             ->when($request->filled('q'), function ($q) use ($request) {
                 $q->where(function ($qq) use ($request) {
                     $term = $request->string('q');
@@ -324,11 +331,12 @@ class PitchController extends Controller
             'name_sw' => ['nullable', 'string', 'max:120'],
             'description_fr' => ['nullable', 'string'],
             'description_en' => ['nullable', 'string'],
+            'sport' => ['required', 'in:'.implode(',', self::SPORTS)],
             'country' => ['required', 'string', 'size:2'],
             'city' => ['required', 'string', 'max:120'],
             'address' => ['nullable', 'string', 'max:255'],
-            'surface_type' => ['required', 'in:natural_grass,synthetic_turf,concrete,indoor'],
-            'capacity' => ['required', 'integer', 'min:4', 'max:22'],
+            'surface_type' => ['required', 'in:'.implode(',', self::SURFACE_TYPES)],
+            'capacity' => ['required', 'integer', 'min:2', 'max:22'],
             'amenities' => ['nullable', 'array'],
             'amenities.*' => ['string'],
             'price_per_hour' => ['required', 'numeric', 'min:0'],
@@ -337,6 +345,7 @@ class PitchController extends Controller
         ]);
 
         return [
+            'sport' => $validated['sport'],
             'name' => array_filter([
                 'fr' => $validated['name_fr'],
                 'en' => $validated['name_en'],

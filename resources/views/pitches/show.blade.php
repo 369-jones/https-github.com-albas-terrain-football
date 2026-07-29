@@ -21,7 +21,7 @@
                     @if ($pitch->images->first())
                         <img src="{{ $pitch->images->first()->url() }}" alt="{{ $pitch->nameFor() }}" class="w-full h-full object-cover">
                     @else
-                        <div class="w-full h-full flex items-center justify-center text-pitch-700/40 text-5xl"><i class="fa-solid fa-futbol"></i></div>
+                        <div class="w-full h-full flex items-center justify-center text-pitch-700/40 text-5xl"><i class="fa-solid {{ $pitch->sportIcon() }}"></i></div>
                     @endif
                 </div>
 
@@ -29,6 +29,7 @@
                 <p class="text-ink/60 mt-1">{{ $pitch->address ? $pitch->address.', ' : '' }}{{ $pitch->city }}</p>
 
                 <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="bg-pitch-50 text-pitch-800 text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5"><i class="fa-solid {{ $pitch->sportIcon() }}"></i> {{ __(ucfirst($pitch->sport)) }}</span>
                     <span class="bg-pitch-50 text-pitch-800 text-xs font-medium px-3 py-1.5 rounded-full">{{ $pitch->capacity }}v{{ $pitch->capacity }}</span>
                     <span class="bg-pitch-50 text-pitch-800 text-xs font-medium px-3 py-1.5 rounded-full">{{ __(ucfirst(str_replace('_', ' ', $pitch->surface_type))) }}</span>
                     @foreach (($pitch->amenities ?? []) as $amenity)
@@ -140,7 +141,7 @@
                         <span class="text-sm font-body font-normal text-ink/50">/{{ __('hour') }}</span>
                     </p>
                     <div class="mt-4 pt-4 border-t border-dashed border-line text-sm text-ink/70 space-y-1">
-                        <p>{{ __('Free cancellation up to 24h before kickoff.') }}</p>
+                        <p>{{ __('Free cancellation up to 24h before your slot.') }}</p>
                         <p>{{ __('Payment secured via card or Mobile Money.') }}</p>
                     </div>
                 </div>
