@@ -15,10 +15,11 @@ class EarningsController extends Controller
 {
     public function index(Request $request, CurrencyService $currencyService): View
     {
-        $ownerId = $request->user()->id;
+        $ownerId = $request->user()->hasRole('admin') ? null : $request->user()->id;
         $currency = session('currency', config('currencies.default'));
 
-        $pitches = Pitch::where('owner_id', $ownerId)->orderBy('city')->get(['id', 'name', 'city']);
+        $pitches = Pitch::when($ownerId, fn ($q) => $q->where('owner_id', $ownerId))
+            ->orderBy('city')->get(['id', 'name', 'city']);
 
         $payments = $this->filteredQuery($request, $ownerId)
             ->with(['booking.pitch', 'booking.user'])
@@ -60,7 +61,7 @@ class EarningsController extends Controller
 
     public function export(Request $request): Response
     {
-        $ownerId = $request->user()->id;
+        $ownerId = $request->user()->hasRole('admin') ? null : $request->user()->id;
 
         $payments = $this->filteredQuery($request, $ownerId)
             ->with(['booking.pitch', 'booking.user'])
@@ -92,10 +93,10 @@ class EarningsController extends Controller
         return '"'.str_replace('"', '""', $value).'"';
     }
 
-    private function filteredQuery(Request $request, int $ownerId): Builder
+    private function filteredQuery(Request $request, ?int $ownerId): Builder
     {
         return Payment::query()
-            ->whereHas('booking.pitch', fn ($q) => $q->where('owner_id', $ownerId))
+            ->when($ownerId, fn ($q) => $q->whereHas('booking.pitch', fn ($qq) => $qq->where('owner_id', $ownerId)))
             ->when($request->filled('pitch_id'), function ($q) use ($request) {
                 $q->whereHas('booking', fn ($b) => $b->where('pitch_id', $request->integer('pitch_id')));
             })

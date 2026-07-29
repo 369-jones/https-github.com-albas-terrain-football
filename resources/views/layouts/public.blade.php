@@ -26,7 +26,7 @@
                 <a href="{{ route('home') }}" class="hover:text-amber-signal transition-colors">{{ __('Find a pitch') }}</a>
                 @auth
                     <a href="{{ route('bookings.mine') }}" class="hover:text-amber-signal transition-colors">{{ __('My bookings') }}</a>
-                    @if(auth()->user()->hasRole('owner'))
+                    @if(auth()->user()->hasAnyRole(['owner', 'admin']))
                         <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-signal transition-colors">{{ __('Owner dashboard') }}</a>
                     @endif
                     @if(auth()->user()->hasRole('admin'))

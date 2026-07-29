@@ -59,7 +59,13 @@ class StaffController extends Controller
         $user->assignRole('owner');
 
         if ($previousOwnerId !== $user->id && Pitch::where('owner_id', $previousOwnerId)->doesntExist()) {
-            User::find($previousOwnerId)?->removeRole('owner');
+            $previousOwner = User::find($previousOwnerId);
+
+            // Never strip 'owner' from the platform admin — they keep full access via
+            // 'admin' regardless of how many stadiums are currently delegated to others.
+            if ($previousOwner && ! $previousOwner->hasRole('admin')) {
+                $previousOwner->removeRole('owner');
+            }
         }
 
         return redirect()->route('admin.staff.index')

@@ -193,7 +193,11 @@ class PitchController extends Controller
 
     public function dashboard(Request $request): View
     {
-        $pitches = Pitch::where('owner_id', $request->user()->id)->get();
+        // The platform admin sees every stadium, regardless of who it's currently
+        // assigned to — a stadium manager only ever sees the one(s) they own.
+        $pitches = $request->user()->hasRole('admin')
+            ? Pitch::with('owner')->get()
+            : Pitch::where('owner_id', $request->user()->id)->get();
         $pitchIds = $pitches->pluck('id');
 
         $upcomingBookings = Booking::whereIn('pitch_id', $pitchIds)
@@ -409,6 +413,8 @@ class PitchController extends Controller
 
     private function authorizeOwnerOf(Pitch $pitch): void
     {
-        abort_unless($pitch->owner_id === request()->user()?->id, 403);
+        $user = request()->user();
+
+        abort_unless($pitch->owner_id === $user?->id || $user?->hasRole('admin'), 403);
     }
 }

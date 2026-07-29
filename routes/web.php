@@ -38,7 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/pitches/{pitch}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
     // Owner dashboard — gated behind the 'owner' role (spatie/laravel-permission).
-    Route::middleware('role:owner')->prefix('admin')->name('admin.')->group(function () {
+    // 'admin' always passes too: the platform admin can see and manage every stadium,
+    // not just ones they personally own (controllers scope accordingly for each role).
+    Route::middleware('role:owner|admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [PitchController::class, 'dashboard'])->name('dashboard');
 
         Route::get('/earnings', [EarningsController::class, 'index'])->name('earnings');
