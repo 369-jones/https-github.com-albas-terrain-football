@@ -12,7 +12,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PitchController extends Controller
@@ -236,7 +235,7 @@ class PitchController extends Controller
         $pitch = Pitch::create([
             ...$validated,
             'owner_id' => $request->user()->id,
-            'slug' => $this->uniqueSlug($validated['name']['en'] ?? $validated['name']['fr']),
+            'slug' => Pitch::uniqueSlug($validated['name']['en'] ?? $validated['name']['fr']),
         ]);
 
         $this->storeUploadedImages($request, $pitch);
@@ -326,7 +325,7 @@ class PitchController extends Controller
         return back()->with('success', __('Date unblocked.'));
     }
 
-    private function validatePitch(Request $request): array
+    public static function validatePitch(Request $request): array
     {
         $validated = $request->validate([
             'name_fr' => ['required', 'string', 'max:120'],
@@ -395,20 +394,6 @@ class PitchController extends Controller
                 'sort_order' => $pitch->images()->count(),
             ]);
         }
-    }
-
-    private function uniqueSlug(string $name): string
-    {
-        $base = Str::slug($name);
-        $slug = $base;
-        $i = 1;
-
-        while (Pitch::withTrashed()->where('slug', $slug)->exists()) {
-            $slug = "{$base}-{$i}";
-            $i++;
-        }
-
-        return $slug;
     }
 
     private function authorizeOwnerOf(Pitch $pitch): void

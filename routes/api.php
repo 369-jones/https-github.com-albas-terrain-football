@@ -16,6 +16,11 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->name('api.v1.
 
     Route::get('/pitches', [PitchController::class, 'index'])->name('pitches.index');
     Route::get('/pitches/{pitch}', [PitchController::class, 'show'])->name('pitches.show');
+    Route::post('/pitches', [PitchController::class, 'store'])->name('pitches.store');
+    // PUT, not PATCH: validatePitch() requires the full set of fields, same as the
+    // web edit form — this replaces the pitch's details rather than patching a subset.
+    Route::put('/pitches/{pitch}', [PitchController::class, 'update'])->name('pitches.update');
+    Route::delete('/pitches/{pitch}', [PitchController::class, 'destroy'])->name('pitches.destroy');
 
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');

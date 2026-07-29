@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Pitch extends Model
 {
@@ -27,6 +28,20 @@ class Pitch extends Model
         'longitude' => 'decimal:7',
         'is_active' => 'boolean',
     ];
+
+    public static function uniqueSlug(string $name): string
+    {
+        $base = Str::slug($name);
+        $slug = $base;
+        $i = 1;
+
+        while (static::withTrashed()->where('slug', $slug)->exists()) {
+            $slug = "{$base}-{$i}";
+            $i++;
+        }
+
+        return $slug;
+    }
 
     /**
      * Get the pitch name in the given locale, falling back to French then English.
