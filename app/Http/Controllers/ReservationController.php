@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Equipe;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
-use App\Services\NotificationService;
+use Illuminate\Validation\ValidationException;
 
 class ReservationController extends Controller
 {
@@ -27,12 +27,12 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'equipe_a_id' => 'required|exists:equipes,id',
             'equipe_b_id' => 'required|exists:equipes,id|different:equipe_a_id',
             'date_match' => 'required|date|after_or_equal:today',
-            'creneau' => 'required',
-            'type_match' => 'required',
+            'creneau' => 'required|in:'.implode(',', Reservation::CRENEAUX),
+            'type_match' => 'required|in:'.implode(',', Reservation::TYPES_MATCH),
             'montant' => 'required|numeric|min:0',
             'notes' => 'nullable|string',
         ], [
@@ -45,35 +45,11 @@ class ReservationController extends Controller
             'montant.required' => 'Le montant est obligatoire.',
         ]);
 
-        // Vérifier conflit de créneau
-        $conflit = Reservation::where('date_match', $request->date_match)
-            ->where('creneau', $request->creneau)
-            ->where('statut', '!=', 'annule')
-            ->exists();
-
-        if ($conflit) {
-            return back()->withErrors([
-                'creneau' => 'Ce créneau est déjà réservé pour cette date !',
-            ])->withInput();
+        try {
+            Reservation::bookSlot($validated);
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
         }
-
-        $reservation = Reservation::create($request->all());
-
-        // Récupérer les noms des équipes
-        $equipeA = \App\Models\Equipe::find($request->equipe_a_id);
-        $equipeB = \App\Models\Equipe::find($request->equipe_b_id);
-
-        NotificationService::nouvelleReservation(
-            $equipeA->nom,
-            $equipeB->nom,
-            \Carbon\Carbon::parse($request->date_match)->format('d/m/Y')
-        );
-
-        NotificationService::nouvelleReservation(
-            $request->input('equipe_a_id'),
-            $request->input('equipe_b_id'),
-            $request->input('date_match')
-        );
 
         return redirect()->route('reservations.index')
             ->with('success', 'Réservation créée avec succès !');
@@ -95,18 +71,18 @@ class ReservationController extends Controller
 
     public function update(Request $request, Reservation $reservation)
     {
-        $request->validate([
+        $validated = $request->validate([
             'equipe_a_id' => 'required|exists:equipes,id',
             'equipe_b_id' => 'required|exists:equipes,id|different:equipe_a_id',
             'date_match' => 'required|date',
-            'creneau' => 'required',
-            'type_match' => 'required',
+            'creneau' => 'required|in:'.implode(',', Reservation::CRENEAUX),
+            'type_match' => 'required|in:'.implode(',', Reservation::TYPES_MATCH),
             'montant' => 'required|numeric|min:0',
             'devise' => 'required|string|max:10',
             'notes' => 'nullable|string',
         ]);
 
-        $reservation->update($request->all());
+        $reservation->update($validated);
 
         return redirect()->route('reservations.index')
             ->with('success', 'Réservation mise à jour avec succès !');
@@ -114,12 +90,7 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        $reservation->update(['statut' => 'annule']);
-        $reservation->load('equipeA', 'equipeB');
-        NotificationService::reservationAnnulee(
-            $reservation->equipeA->nom,
-            $reservation->equipeB->nom
-        );
+        $reservation->cancel();
 
         return redirect()->route('reservations.index')
             ->with('success', 'Réservation annulée avec succès !');

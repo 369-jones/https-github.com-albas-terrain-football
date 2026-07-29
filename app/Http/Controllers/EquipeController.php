@@ -22,22 +22,16 @@ class EquipeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255|unique:equipes,nom',
-            'responsable' => 'required|string|max:255',
-            'contact' => 'required|string|max:50',
-            'faculte' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
-        ], [
+        $validated = $request->validate(self::rules(), [
             'nom.required' => 'Le nom de l\'équipe est obligatoire.',
             'nom.unique' => 'Ce nom d\'équipe existe déjà.',
             'responsable.required' => 'Le responsable est obligatoire.',
             'contact.required' => 'Le contact est obligatoire.',
         ]);
 
-        Equipe::create($request->all());
+        $equipe = Equipe::create($validated);
 
-        NotificationService::equipeCreee($request->nom);
+        NotificationService::nouvelleEquipe($equipe->nom);
 
         return redirect()->route('equipes.index')
             ->with('success', 'Équipe créée avec succès !');
@@ -57,15 +51,9 @@ class EquipeController extends Controller
 
     public function update(Request $request, Equipe $equipe)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255|unique:equipes,nom,'.$equipe->id,
-            'responsable' => 'required|string|max:255',
-            'contact' => 'required|string|max:50',
-            'faculte' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
-        ]);
+        $validated = $request->validate(self::rules($equipe->id));
 
-        $equipe->update($request->all());
+        $equipe->update($validated);
 
         return redirect()->route('equipes.index')
             ->with('success', 'Équipe mise à jour avec succès !');
@@ -77,5 +65,16 @@ class EquipeController extends Controller
 
         return redirect()->route('equipes.index')
             ->with('success', 'Équipe supprimée avec succès !');
+    }
+
+    public static function rules(?int $ignoreId = null): array
+    {
+        return [
+            'nom' => 'required|string|max:255|unique:equipes,nom'.($ignoreId ? ','.$ignoreId : ''),
+            'responsable' => 'required|string|max:255',
+            'contact' => 'required|string|max:50',
+            'faculte' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+        ];
     }
 }

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\EquipeController;
 use App\Http\Controllers\Api\PayoutController;
 use App\Http\Controllers\Api\PitchController;
+use App\Http\Controllers\Api\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +38,12 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->name('api.v1.
     Route::post('/payouts', [PayoutController::class, 'store'])->name('payouts.store');
     Route::post('/payouts/{payout}/mark-paid', [PayoutController::class, 'markPaid'])->name('payouts.mark-paid');
     Route::post('/payouts/{payout}/mark-failed', [PayoutController::class, 'markFailed'])->name('payouts.mark-failed');
+});
+
+// Legacy club back-office (Equipes/Reservations) — a single club, not per-stadium, so this
+// is gated to role:admin only, exactly like its web equivalent (routes/web.php's
+// 'auth','role:admin' group), not the owner|admin scoping used above.
+Route::middleware(['auth:sanctum', 'throttle:api', 'role:admin'])->prefix('v1')->name('api.v1.')->group(function () {
+    Route::apiResource('equipes', EquipeController::class);
+    Route::apiResource('reservations', ReservationController::class);
 });
