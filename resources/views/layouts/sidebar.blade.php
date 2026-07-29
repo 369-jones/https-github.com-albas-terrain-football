@@ -77,6 +77,12 @@
             <span>Paramètres</span>
         </a>
 
+        <a href="{{ route('aide') }}"
+           class="nav-item {{ request()->routeIs('aide') ? 'active' : '' }}">
+            <span class="nav-icon"><i class="fa-solid fa-circle-question"></i></span>
+            <span>Aide</span>
+        </a>
+
     </nav>
 
     {{-- FOOTER SIDEBAR --}}

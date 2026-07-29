@@ -76,6 +76,47 @@
             </table>
         </div>
     </div>
+
+</div>
+
+<div class="panel" style="margin-top:20px">
+    <div class="panel-header">
+        <div class="panel-title"><i class="fa-solid fa-key"></i> Clé API</div>
+    </div>
+    <div class="panel-body">
+        @if (session('new_api_token'))
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:16px">
+                <p style="font-weight:700;font-size:13px;margin-bottom:8px">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Copiez cette clé maintenant — elle ne sera plus jamais affichée.
+                </p>
+                <code style="display:block;background:#fff;border:1px solid #f1f5f9;border-radius:6px;padding:10px;font-size:13px;word-break:break-all">{{ session('new_api_token') }}</code>
+            </div>
+        @endif
+
+        @if ($apiToken)
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px">
+                Une clé API est active (générée le {{ $apiToken->created_at->format('d/m/Y à H:i') }}{{ $apiToken->last_used_at ? ', dernière utilisation le '.$apiToken->last_used_at->format('d/m/Y à H:i') : ', jamais utilisée' }}).
+                Utilisez-la pour authentifier des intégrations externes via l'en-tête <code>Authorization: Bearer &lt;clé&gt;</code>.
+            </p>
+            <div style="display:flex;gap:8px">
+                <form method="POST" action="{{ route('parametres.api-token.generate') }}" onsubmit="return confirm('Régénérer la clé API ? L\'ancienne cessera de fonctionner immédiatement.');">
+                    @csrf
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-rotate"></i> Régénérer</button>
+                </form>
+                <form method="POST" action="{{ route('parametres.api-token.revoke') }}" onsubmit="return confirm('Révoquer la clé API ? Les intégrations qui l\'utilisent cesseront de fonctionner.');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn" style="color:#dc2626;border-color:#fecaca"><i class="fa-solid fa-trash"></i> Révoquer</button>
+                </form>
+            </div>
+        @else
+            <p style="color:#64748b;font-size:14px;margin-bottom:16px">Aucune clé API générée pour le moment. Créez-en une pour permettre à une intégration externe d'accéder à la plateforme en votre nom.</p>
+            <form method="POST" action="{{ route('parametres.api-token.generate') }}">
+                @csrf
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-key"></i> Générer une clé API</button>
+            </form>
+        @endif
+    </div>
 </div>
 
 @endsection

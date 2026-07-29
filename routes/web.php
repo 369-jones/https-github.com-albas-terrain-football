@@ -11,6 +11,7 @@ use App\Http\Controllers\RapportController;
 use App\Http\Controllers\ParametreController;
 use App\Http\Controllers\CalendrierController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PitchController;
@@ -127,6 +128,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Paramètres
     Route::get('/parametres',  [ParametreController::class, 'index'])->name('parametres');
     Route::post('/parametres', [ParametreController::class, 'update'])->name('parametres.update');
+    Route::post('/parametres/api-token', [ParametreController::class, 'generateApiToken'])->name('parametres.api-token.generate');
+    Route::delete('/parametres/api-token', [ParametreController::class, 'revokeApiToken'])->name('parametres.api-token.revoke');
+
+    // Aide
+    Route::get('/aide', [HelpController::class, 'index'])->name('aide');
 
     // Notifications
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

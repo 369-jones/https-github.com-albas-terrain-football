@@ -11,8 +11,29 @@ class ParametreController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $apiToken = $user->tokens()->latest()->first();
 
-        return view('parametres.index', compact('user'));
+        return view('parametres.index', compact('user', 'apiToken'));
+    }
+
+    public function generateApiToken(Request $request)
+    {
+        $user = Auth::user();
+
+        // Single-key model: regenerating replaces whatever key existed before.
+        $user->tokens()->delete();
+        $plainTextToken = $user->createToken('parametres')->plainTextToken;
+
+        return redirect()->route('parametres')
+            ->with('success', 'Nouvelle clé API générée — copiez-la maintenant, elle ne sera plus affichée.')
+            ->with('new_api_token', $plainTextToken);
+    }
+
+    public function revokeApiToken(Request $request)
+    {
+        Auth::user()->tokens()->delete();
+
+        return redirect()->route('parametres')->with('success', 'Clé API révoquée.');
     }
 
     public function update(Request $request)
