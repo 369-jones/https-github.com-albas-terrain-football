@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 // Bearer-token API, authenticated with the personal access tokens issued from
 // Parametres > Cle API (see StaffController/ParametreController on the web side).
-// Read-only for now — scoped the same way the owner dashboard is: the platform
-// admin sees every stadium, everyone else only the one(s) they're responsible for.
+// Scoped the same way the owner dashboard is: the platform admin sees and manages
+// every stadium, everyone else only the one(s) they're responsible for.
 Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/me', function (Request $request) {
         return $request->user()->only('id', 'name', 'email');
@@ -19,4 +19,6 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->name('api.v1.
 
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::patch('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
 });

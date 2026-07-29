@@ -18,4 +18,9 @@ trait ScopesToOwnedPitches
 
         return Pitch::where('owner_id', $user->id)->pluck('id');
     }
+
+    private function authorizePitchManagement(Pitch $pitch, User $user): void
+    {
+        abort_unless($user->hasRole('admin') || $pitch->owner_id === $user->id, 403);
+    }
 }
