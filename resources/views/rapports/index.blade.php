@@ -4,8 +4,8 @@
 
 @section('content')
 
-<div class="page-title">📈 Rapports & Statistiques</div>
-<div class="page-subtitle">Analyse des activités du terrain universitaire</div>
+<div class="page-title"><i class="fa-solid fa-chart-line"></i> Rapports & Statistiques</div>
+<div class="page-subtitle">Analyse des activités du terrain</div>
 
 <div class="stats-grid">
     <div class="stat-card card-blue">
@@ -14,23 +14,23 @@
             <div class="stat-value">{{ $stats['total_reservations'] }}</div>
             <div class="stat-sub">Depuis l'ouverture</div>
         </div>
-        <div class="stat-icon">🗓️</div>
+        <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
     </div>
     <div class="stat-card card-green">
         <div>
             <div class="stat-label">Revenus total</div>
-            <div class="stat-value">{{ number_format($stats['revenus_total'], 0, ',', ' ') }}</div>
-            <div class="stat-sub">FCFA encaissés</div>
+            <div class="stat-value">@montant($stats['revenus_total'])</div>
+            <div class="stat-sub">Encaissés</div>
         </div>
-        <div class="stat-icon">💰</div>
+        <div class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
     </div>
     <div class="stat-card card-teal">
         <div>
             <div class="stat-label">Revenus ce mois</div>
-            <div class="stat-value">{{ number_format($stats['revenus_mois'], 0, ',', ' ') }}</div>
-            <div class="stat-sub">FCFA ce mois</div>
+            <div class="stat-value">@montant($stats['revenus_mois'])</div>
+            <div class="stat-sub">Ce mois</div>
         </div>
-        <div class="stat-icon">📅</div>
+        <div class="stat-icon"><i class="fa-solid fa-calendar-days"></i></div>
     </div>
     <div class="stat-card card-orange">
         <div>
@@ -38,7 +38,7 @@
             <div class="stat-value">{{ $stats['en_attente'] }}</div>
             <div class="stat-sub">À confirmer</div>
         </div>
-        <div class="stat-icon">⏳</div>
+        <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
     </div>
     <div class="stat-card card-purple">
         <div>
@@ -46,22 +46,22 @@
             <div class="stat-value">{{ $stats['confirmes'] }}</div>
             <div class="stat-sub">Réservations confirmées</div>
         </div>
-        <div class="stat-icon">✅</div>
+        <div class="stat-icon"><i class="fa-solid fa-check"></i></div>
     </div>
     <div class="stat-card card-red">
         <div>
             <div class="stat-label">Impayés</div>
-            <div class="stat-value">{{ number_format($stats['impayes_montant'], 0, ',', ' ') }}</div>
-            <div class="stat-sub">FCFA non recouvrés</div>
+            <div class="stat-value">@montant($stats['impayes_montant'])</div>
+            <div class="stat-sub">Non recouvrés</div>
         </div>
-        <div class="stat-icon">⚠️</div>
+        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     </div>
 </div>
 
 <div class="two-cols">
     <div class="panel">
         <div class="panel-header">
-            <div class="panel-title">💳 Paiements par mode</div>
+            <div class="panel-title"><i class="fa-solid fa-credit-card"></i> Paiements par mode</div>
         </div>
         <div class="panel-body">
             @forelse($paiements_par_mode as $mode)
@@ -71,7 +71,7 @@
                     <span style="font-weight:700">{{ $mode->mode_paiement }}</span>
                     <span style="color:#64748b">
                         {{ $mode->total }} paiement(s) —
-                        {{ number_format($mode->montant, 0, ',', ' ') }} FCFA
+                        @montant($mode->montant)
                     </span>
                 </div>
                 @php

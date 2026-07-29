@@ -69,7 +69,7 @@
                 <div class="field">
                     <label>Type de compétition *</label>
                     <select name="type_match">
-                        @foreach(['Match amical','Championnat universitaire','Coupe interfacultés','Tournoi'] as $t)
+                        @foreach(['Match amical','Championnat','Coupe','Tournoi'] as $t)
                         <option value="{{ $t }}"
                             {{ old('type_match', $reservation->type_match) == $t ? 'selected' : '' }}>
                             {{ $t }}
@@ -78,7 +78,7 @@
                     </select>
                 </div>
                 <div class="field">
-                    <label>Montant (FCFA) *</label>
+                    <label>Montant *</label>
                     <input type="number" name="montant"
                            value="{{ old('montant', $reservation->montant) }}"
                            min="0" step="500">

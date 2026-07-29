@@ -109,7 +109,7 @@
                     </td>
                     <td><span class="badge badge-blue">{{ $r->type_match }}</span></td>
                     <td>{{ $r->creneau }}</td>
-                    <td style="font-weight:700">{{ number_format($r->montant, 0, ',', ' ') }} FCFA</td>
+                    <td style="font-weight:700">@montant($r->montant)</td>
                     <td>{!! $r->statutBadge() !!}</td>
                 </tr>
                 @empty

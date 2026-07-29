@@ -93,7 +93,7 @@ class BookingOverlapTest extends TestCase
             'start_time' => '10:00',
             'end_time' => '11:00',
             'total_price' => 15000,
-            'currency' => 'XOF',
+            'currency' => 'USD',
             'status' => 'pending',
             'payment_status' => 'unpaid',
         ];

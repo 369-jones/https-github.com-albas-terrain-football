@@ -7,7 +7,7 @@
 <div class="flex-between">
     <div>
         <div class="page-title">➕ Nouvelle équipe</div>
-        <div class="page-subtitle">Inscrire une nouvelle équipe universitaire</div>
+        <div class="page-subtitle">Inscrire une nouvelle équipe</div>
     </div>
     <a href="{{ route('equipes.index') }}" class="btn btn-outline">← Retour</a>
 </div>
@@ -47,7 +47,7 @@
                     <label>Email</label>
                     <input type="email" name="email"
                            value="{{ old('email') }}"
-                           placeholder="equipe@universite.ci">
+                           placeholder="equipe@terrainfoot.com">
                     @error('email')<div class="error">{{ $message }}</div>@enderror
                 </div>
             </div>

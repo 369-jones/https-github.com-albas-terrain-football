@@ -21,7 +21,7 @@
                     @if ($pitch->images->first())
                         <img src="{{ $pitch->images->first()->url() }}" alt="{{ $pitch->nameFor() }}" class="w-full h-full object-cover">
                     @else
-                        <div class="w-full h-full flex items-center justify-center text-pitch-700/40 font-display text-5xl">⚽</div>
+                        <div class="w-full h-full flex items-center justify-center text-pitch-700/40 text-5xl"><i class="fa-solid fa-futbol"></i></div>
                     @endif
                 </div>
 

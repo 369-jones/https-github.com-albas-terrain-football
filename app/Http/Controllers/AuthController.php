@@ -7,15 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Afficher la page de login
+    // Login se fait désormais via une modale sur la page d'accueil, pas une page dédiée.
     public function showLogin()
     {
-        // Si déjà connecté → rediriger vers dashboard
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
 
-        return view('auth.login');
+        return redirect()->route('home', ['login' => 1]);
     }
 
     // Traiter le formulaire de login

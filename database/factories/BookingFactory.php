@@ -20,8 +20,8 @@ class BookingFactory extends Factory
             'booking_date' => now()->addDay()->toDateString(),
             'start_time' => '10:00',
             'end_time' => '11:00',
-            'total_price' => 15000,
-            'currency' => 'XOF',
+            'total_price' => 25,
+            'currency' => 'USD',
             'status' => 'pending',
             'payment_status' => 'unpaid',
         ];

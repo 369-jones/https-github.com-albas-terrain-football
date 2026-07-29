@@ -72,7 +72,7 @@
                 <div class="field">
                     <label>Type de compétition *</label>
                     <select name="type_match">
-                        @foreach(['Match amical','Championnat universitaire','Coupe interfacultés','Tournoi'] as $t)
+                        @foreach(['Match amical','Championnat','Coupe','Tournoi'] as $t)
                         <option value="{{ $t }}" {{ old('type_match') == $t ? 'selected' : '' }}>
                             {{ $t }}
                         </option>
@@ -90,7 +90,7 @@
                                 style="width:160px">
                             @foreach(config('devises.liste') as $code => $info)
                             <option value="{{ $code }}"
-                                {{ old('devise', 'XAF') == $code ? 'selected' : '' }}>
+                                {{ old('devise', 'USD') == $code ? 'selected' : '' }}>
                                 {{ $info['drapeau'] }} {{ $code }} — {{ $info['symbole'] }}
                             </option>
                             @endforeach

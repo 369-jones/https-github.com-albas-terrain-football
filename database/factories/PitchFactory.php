@@ -20,14 +20,14 @@ class PitchFactory extends Factory
             'slug' => \Illuminate\Support\Str::slug($name).'-'.fake()->unique()->numberBetween(1, 100000),
             'name' => ['fr' => $name, 'en' => $name],
             'description' => ['fr' => fake()->sentence(), 'en' => fake()->sentence()],
-            'country' => 'CI',
+            'country' => 'CD',
             'city' => fake()->city(),
             'address' => fake()->streetAddress(),
             'surface_type' => 'synthetic_turf',
             'capacity' => 5,
             'amenities' => ['lighting', 'parking'],
-            'price_per_hour' => fake()->numberBetween(5000, 20000),
-            'currency' => 'XOF',
+            'price_per_hour' => fake()->numberBetween(15, 60),
+            'currency' => 'USD',
             'is_active' => true,
         ];
     }

@@ -23,7 +23,7 @@
             <form method="GET" action="{{ route('home') }}" x-data="{ open: {{ $hasFilters ? 'true' : 'false' }} }" class="mt-8 max-w-2xl">
                 <div class="bg-sand-100 rounded-2xl p-2 flex flex-col sm:flex-row gap-2">
                     <input type="text" name="q" value="{{ request('q') }}"
-                           placeholder="{{ __('City or neighborhood — e.g. Cocody, Yaba, Kilimani') }}"
+                           placeholder="{{ __('City or neighborhood') }}"
                            class="flex-1 px-4 py-3 rounded-xl text-ink placeholder:text-ink/40 focus:outline-none">
                     <button type="button" @click="open = !open"
                             class="flex items-center justify-center gap-1.5 bg-white text-ink font-medium px-4 py-3 rounded-xl border border-line hover:border-pitch-500 transition-colors">

@@ -7,7 +7,7 @@ class DeviseHelper
     /**
      * Formate un montant avec sa devise.
      */
-    public static function formater(?float $montant, string $devise = 'XAF'): string
+    public static function formater(?float $montant, string $devise = 'USD'): string
     {
         // Sécurité : montant null → 0
         if (is_null($montant)) {
@@ -15,7 +15,7 @@ class DeviseHelper
         }
 
         $devises = config('devises.liste');
-        $info = $devises[$devise] ?? $devises['XAF'];
+        $info = $devises[$devise] ?? $devises['USD'];
 
         $montantFormate = number_format(
             $montant,
@@ -38,7 +38,7 @@ class DeviseHelper
     /**
      * Retourne le symbole d'une devise.
      */
-    public static function symbole(string $devise = 'XAF'): string
+    public static function symbole(string $devise = 'USD'): string
     {
         $devises = config('devises.liste');
 
@@ -48,7 +48,7 @@ class DeviseHelper
     /**
      * Retourne le drapeau d'une devise.
      */
-    public static function drapeau(string $devise = 'XAF'): string
+    public static function drapeau(string $devise = 'USD'): string
     {
         $devises = config('devises.liste');
 

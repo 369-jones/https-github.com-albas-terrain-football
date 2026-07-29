@@ -7,7 +7,7 @@
 <div class="flex-between">
     <div>
         <div class="page-title">👥 Équipes</div>
-        <div class="page-subtitle">Gérez les équipes universitaires inscrites</div>
+        <div class="page-subtitle">Gérez les équipes inscrites</div>
     </div>
     <a href="{{ route('equipes.create') }}" class="btn btn-primary">+ Nouvelle équipe</a>
 </div>

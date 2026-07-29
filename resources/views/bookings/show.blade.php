@@ -12,7 +12,7 @@
     <div class="max-w-md mx-auto px-4 sm:px-6 py-12 text-center">
 
         <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 {{ $isPaid ? 'bg-pitch-100 text-pitch-700' : 'bg-amber-signal/20 text-amber-signal-dark' }}">
-            <span class="text-2xl">{{ $isPaid ? '✓' : '⏳' }}</span>
+            <span class="text-2xl"><i class="fa-solid {{ $isPaid ? 'fa-circle-check' : 'fa-hourglass-half' }}"></i></span>
         </div>
 
         <h1 class="font-display font-bold text-2xl">

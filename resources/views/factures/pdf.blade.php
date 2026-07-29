@@ -243,7 +243,7 @@
     <div class="header">
         <div class="header-inner">
             <div class="header-left">
-                <div class="logo-title">⚽ Terrain Football Universitaire</div>
+                <div class="logo-title">⚽ {{ config('app.name') }}</div>
                 <div class="logo-sub">Université Marcelo</div>
                 <div class="logo-sub">Kinshasa · RDCongo</div>
             </div>
@@ -266,10 +266,10 @@
     <div class="parties">
         <div class="partie">
             <div class="partie-label">Émis par</div>
-            <div class="partie-name">Terrain Football Universitaire</div>
+            <div class="partie-name">{{ config('app.name') }}</div>
             <div class="partie-info">Université Marcelo</div>
             <div class="partie-info">Kinshasa · RDCongo</div>
-            <div class="partie-info">terrain@universite.ci</div>
+            <div class="partie-info">admin@terrainfoot.com</div>
         </div>
         <div class="partie-spacer"></div>
         <div class="partie">
@@ -359,7 +359,7 @@
 
     {{-- PIED --}}
     <div class="footer">
-        <div>Merci de votre confiance — Terrain Football Universitaire</div>
+        <div>Merci de votre confiance — {{ config('app.name') }}</div>
         <div>Université Marcelo · Kinshasa · RDCongo</div>
         <div style="margin-top:4px;font-style:italic">
             Ce document est une facture officielle valable comme preuve de paiement.

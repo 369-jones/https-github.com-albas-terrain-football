@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Terrain Football Universitaire')</title>
+    <title>@yield('title', config('app.name'))</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         /* ─── RESET ─────────────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,6 +25,7 @@
             display: flex; align-items: center; gap: 12px;
         }
         .sidebar-logo { font-size: 32px; }
+        .sidebar-logo-img { width: 36px; height: 36px; flex-shrink: 0; }
         .sidebar-title { color: #fff; font-size: 15px; font-weight: 800; }
         .sidebar-sub { color: #64748b; font-size: 11px; margin-top: 2px; }
         .sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
@@ -41,7 +43,7 @@
             margin: 1px 8px; text-decoration: none;
         }
         .nav-item:hover { background: #1e293b; color: #fff; }
-        .nav-item.active { background: #1e40af; color: #fff; }
+        .nav-item.active { background: #991b1b; color: #fff; }
         .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
         .sidebar-footer {
             padding: 16px;
@@ -54,7 +56,7 @@
         }
         .user-avatar {
             width: 36px; height: 36px;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background: linear-gradient(135deg, #b91c1c, #7f1d1d);
             border-radius: 50%; display: flex; align-items: center;
             justify-content: center; font-size: 15px;
             font-weight: 800; color: #fff; flex-shrink: 0;
@@ -85,8 +87,19 @@
         .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; }
         .breadcrumb .current { color: #0f172a; font-weight: 700; }
         .breadcrumb .sep { color: #cbd5e1; }
-        .topbar-right { display: flex; align-items: center; gap: 12px; }
+        .topbar-right { display: flex; align-items: center; gap: 14px; }
         .topbar-date { font-size: 12px; color: #94a3b8; }
+        .topbar-icon-btn {
+            position: relative; display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 50%; background: #f8fafc;
+            color: #64748b; font-size: 15px; transition: all 0.15s;
+        }
+        .topbar-icon-btn:hover { background: #fee2e2; color: #991b1b; }
+        .topbar-icon-badge {
+            position: absolute; top: -2px; right: -2px;
+            background: #dc2626; color: #fff; border-radius: 20px;
+            font-size: 10px; font-weight: 800; padding: 1px 5px; line-height: 1.4;
+        }
 
         /* ─── CONTENT ────────────────────────────────── */
         .content { padding: 24px; flex: 1; }
@@ -107,9 +120,9 @@
         .stat-value { font-size: 30px; font-weight: 800; margin: 6px 0 4px; }
         .stat-sub { font-size: 12px; color: #94a3b8; }
         .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-        .card-blue { background: linear-gradient(135deg,#eff6ff,#dbeafe); border-color: #bfdbfe; }
-        .card-blue .stat-value { color: #1d4ed8; }
-        .card-blue .stat-icon { background: #2563eb; }
+        .card-blue { background: linear-gradient(135deg,#fef2f2,#fee2e2); border-color: #fca5a5; }
+        .card-blue .stat-value { color: #b91c1c; }
+        .card-blue .stat-icon { background: #dc2626; }
         .card-green { background: linear-gradient(135deg,#f0fdf4,#dcfce7); border-color: #bbf7d0; }
         .card-green .stat-value { color: #15803d; }
         .card-green .stat-icon { background: #16a34a; }
@@ -144,7 +157,7 @@
         /* ─── BADGES ─────────────────────────────────── */
         .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
         .badge-green  { background: #dcfce7; color: #15803d; }
-        .badge-blue   { background: #dbeafe; color: #1e40af; }
+        .badge-blue   { background: #fee2e2; color: #991b1b; }
         .badge-orange { background: #fed7aa; color: #c2410c; }
         .badge-red    { background: #fee2e2; color: #b91c1c; }
         .badge-purple { background: #ede9fe; color: #6d28d9; }
@@ -152,8 +165,8 @@
 
         /* ─── BUTTONS ────────────────────────────────── */
         .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
-        .btn-primary { background: linear-gradient(135deg,#2563eb,#1d4ed8); color: #fff; box-shadow: 0 2px 8px rgba(37,99,235,0.25); }
-        .btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+        .btn-primary { background: linear-gradient(135deg,#dc2626,#991b1b); color: #fff; box-shadow: 0 2px 8px rgba(220,38,38,0.25); }
+        .btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 14px rgba(220,38,38,0.35); }
         .btn-success { background: linear-gradient(135deg,#16a34a,#15803d); color: #fff; }
         .btn-success:hover { opacity: 0.9; }
         .btn-danger  { background: linear-gradient(135deg,#dc2626,#b91c1c); color: #fff; }
@@ -175,8 +188,8 @@
             outline: none; transition: all 0.2s;
         }
         .field input:focus, .field select:focus, .field textarea:focus {
-            border-color: #2563eb; background: #fff;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
+            border-color: #dc2626; background: #fff;
+            box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
         }
         .field textarea { resize: vertical; min-height: 90px; }
         .field .error { color: #dc2626; font-size: 12px; margin-top: 4px; }
@@ -204,11 +217,18 @@
         {{-- TOPBAR --}}
         <div class="topbar">
             <div class="breadcrumb">
-                <span>Terrain Football</span>
+                <span>{{ config('app.name') }}</span>
                 <span class="sep">›</span>
                 <span class="current">@yield('breadcrumb', 'Dashboard')</span>
             </div>
             <div class="topbar-right">
+                <a href="{{ route('notifications.index') }}" class="topbar-icon-btn" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    @php $topbarNotifCount = \App\Models\Notification::nonLues()->count(); @endphp
+                    @if ($topbarNotifCount > 0)
+                        <span class="topbar-icon-badge">{{ $topbarNotifCount }}</span>
+                    @endif
+                </a>
                 <span class="topbar-date" id="topbarDate"></span>
             </div>
         </div>

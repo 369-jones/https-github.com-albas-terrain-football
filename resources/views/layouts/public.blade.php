@@ -8,10 +8,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen flex flex-col font-body text-ink bg-sand">
+<body class="min-h-screen flex flex-col font-body text-ink bg-sand"
+      x-data="{ loginOpen: {{ ($errors->any() || request()->boolean('login')) ? 'true' : 'false' }} }">
 
     <header class="bg-pitch-900 text-sand-100 sticky top-0 z-30 shadow-sm">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
@@ -40,10 +42,10 @@
                         <button class="text-sm font-medium hover:text-amber-signal transition-colors">{{ __('Log out') }}</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}"
-                       class="text-sm font-semibold bg-amber-signal text-ink px-4 py-2 rounded-full hover:bg-amber-signal-dark transition-colors">
+                    <button type="button" @click="loginOpen = true"
+                            class="text-sm font-semibold bg-white text-pitch-800 px-4 py-2 rounded-full hover:bg-pitch-50 transition-colors">
                         {{ __('Log in') }}
-                    </a>
+                    </button>
                 @endauth
             </div>
         </div>
@@ -70,6 +72,8 @@
             <p>{{ __('Prices shown include all fees.') }}</p>
         </div>
     </footer>
+
+    <x-login-modal />
 
 </body>
 </html>

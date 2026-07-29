@@ -54,11 +54,11 @@ class PayoutTest extends TestCase
     public function test_requesting_a_payout_claims_all_available_payments_and_hides_them_from_the_balance(): void
     {
         $owner = $this->owner();
-        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'XOF']);
+        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'USD']);
         $this->successfulPayment($pitch, 15000, '10:00');
         $this->successfulPayment($pitch, 25000, '14:00');
 
-        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
 
         $response->assertSessionHasNoErrors();
         $this->assertSame(1, Payout::count());
@@ -69,11 +69,11 @@ class PayoutTest extends TestCase
     public function test_requesting_a_payout_twice_does_not_double_count_the_same_payments(): void
     {
         $owner = $this->owner();
-        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'XOF']);
+        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'USD']);
         $this->successfulPayment($pitch, 15000);
 
-        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
-        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
+        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
 
         $response->assertSessionHasErrors('currency');
         $this->assertSame(1, Payout::count());
@@ -83,10 +83,10 @@ class PayoutTest extends TestCase
     {
         $owner = $this->owner();
         $otherOwner = User::factory()->create();
-        $otherPitch = Pitch::factory()->create(['owner_id' => $otherOwner->id, 'currency' => 'XOF']);
+        $otherPitch = Pitch::factory()->create(['owner_id' => $otherOwner->id, 'currency' => 'USD']);
         $this->successfulPayment($otherPitch, 99000);
 
-        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
 
         $response->assertSessionHasErrors('currency');
         $this->assertSame(0, Payout::count());
@@ -96,16 +96,16 @@ class PayoutTest extends TestCase
     {
         $owner = $this->owner();
         $owner->assignRole('finance');
-        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'XOF']);
+        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'USD']);
         $this->successfulPayment($pitch, 15000);
 
-        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
         $payout = Payout::first();
 
         $this->actingAs($owner)->post(route('admin.payouts.mark-failed', $payout));
         $this->assertSame('failed', $payout->fresh()->status);
 
-        $second = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $second = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
         $second->assertSessionHasNoErrors();
         $this->assertSame(2, Payout::count());
     }
@@ -114,16 +114,16 @@ class PayoutTest extends TestCase
     {
         $owner = $this->owner();
         $owner->assignRole('finance');
-        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'XOF']);
+        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'USD']);
         $this->successfulPayment($pitch, 15000);
 
-        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
         $payout = Payout::first();
 
         $this->actingAs($owner)->post(route('admin.payouts.mark-paid', $payout));
         $this->assertSame('paid', $payout->fresh()->status);
 
-        $second = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $second = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
         $second->assertSessionHasErrors('currency');
         $this->assertSame(1, Payout::count());
     }
@@ -131,9 +131,9 @@ class PayoutTest extends TestCase
     public function test_only_finance_role_can_mark_a_payout_paid_or_failed(): void
     {
         $owner = $this->owner(); // has 'owner' role only, not 'finance'
-        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'XOF']);
+        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'USD']);
         $this->successfulPayment($pitch, 15000);
-        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
         $payout = Payout::first();
 
         $this->actingAs($owner)->post(route('admin.payouts.mark-paid', $payout))->assertForbidden();
@@ -146,10 +146,10 @@ class PayoutTest extends TestCase
         Role::firstOrCreate(['name' => 'owner']);
         $owner = User::factory()->create(); // no payout_method set
         $owner->assignRole('owner');
-        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'XOF']);
+        $pitch = Pitch::factory()->create(['owner_id' => $owner->id, 'currency' => 'USD']);
         $this->successfulPayment($pitch, 15000);
 
-        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'XOF']);
+        $response = $this->actingAs($owner)->post(route('admin.payouts.store'), ['currency' => 'USD']);
 
         $response->assertSessionHas('error');
         $this->assertSame(0, Payout::count());

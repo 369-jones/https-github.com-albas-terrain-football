@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
             return "<?php
                 \$_args = [$expression];
                 \$_montant = \$_args[0] ?? 0;
-                \$_devise  = \$_args[1] ?? 'XAF';
-                echo App\Helpers\DeviseHelper::formater(\$_montant, \$_devise ?? 'XAF');
+                \$_devise  = \$_args[1] ?? 'USD';
+                echo App\Helpers\DeviseHelper::formater(\$_montant, \$_devise ?? 'USD');
             ?>";
         });
     }

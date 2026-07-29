@@ -24,7 +24,7 @@
                 <div>
                     <div style="font-size:32px">⚽</div>
                     <div style="font-size:22px;font-weight:800;color:#2563eb">
-                        Terrain Football Universitaire
+                        {{ config('app.name') }}
                     </div>
                     <div style="color:#64748b;font-size:13px">Université Marcelo</div>
                     <div style="color:#64748b;font-size:13px">Kinshasa · RDCongo</div>
@@ -52,7 +52,7 @@
                                 text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">
                         Émis par
                     </div>
-                    <div style="font-weight:800;font-size:15px">Terrain Football Universitaire</div>
+                    <div style="font-weight:800;font-size:15px">{{ config('app.name') }}</div>
                     <div style="color:#64748b;font-size:13px">Université Marcelo</div>
                     <div style="color:#64748b;font-size:13px">Kinshasa · RDCongo</div>
                 </div>
@@ -163,7 +163,7 @@
             {{-- PIED --}}
             <div style="text-align:center;border-top:1px solid #e2e8f0;
                         padding-top:16px;color:#94a3b8;font-size:12px">
-                <div>Merci de votre confiance — Terrain Football Universitaire</div>
+                <div>Merci de votre confiance — {{ config('app.name') }}</div>
                 <div style="margin-top:4px">
                     Université Marcelo · Kinshasa · RDCongo
                 </div>

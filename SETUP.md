@@ -12,7 +12,7 @@ php artisan storage:link
 composer run dev        # server + queue:listen + pail + vite, all together
 ```
 
-Demo login: `admin@universite.ci` / `Admin@2024` (has both the `owner` and `finance` roles).
+Demo login: `admin@terrainfoot.com` / `Admin@2024` (has both the `owner` and `finance` roles).
 
 ## Environment variables that matter beyond the basics
 

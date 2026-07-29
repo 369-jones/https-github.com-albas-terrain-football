@@ -14,7 +14,7 @@
             <img src="{{ $pitch->images->first()->url() }}" alt="{{ $pitch->nameFor() }}"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
         @else
-            <div class="w-full h-full flex items-center justify-center text-pitch-700/40 font-display text-3xl">⚽</div>
+            <div class="w-full h-full flex items-center justify-center text-pitch-700/40 text-3xl"><i class="fa-solid fa-futbol"></i></div>
         @endif
         <span class="absolute top-3 left-3 bg-ink/80 text-sand-100 text-xs font-medium px-2.5 py-1 rounded-full">
             {{ $pitch->capacity }}v{{ $pitch->capacity }}

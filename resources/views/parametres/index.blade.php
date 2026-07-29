@@ -26,7 +26,7 @@
                     <label>Adresse e-mail *</label>
                     <input type="email" name="email"
                            value="{{ old('email', $user->email) }}"
-                           placeholder="admin@universite.ci">
+                           placeholder="admin@terrainfoot.com">
                     @error('email')<div class="error">{{ $message }}</div>@enderror
                 </div>
                 <div class="field">
@@ -53,7 +53,7 @@
             <table style="width:100%;font-size:14px">
                 <tr style="border-bottom:1px solid #f1f5f9">
                     <td style="padding:12px 0;color:#64748b;font-weight:700">Application</td>
-                    <td style="padding:12px 0;font-weight:700">Terrain Football Universitaire</td>
+                    <td style="padding:12px 0;font-weight:700">{{ config('app.name') }}</td>
                 </tr>
                 <tr style="border-bottom:1px solid #f1f5f9">
                     <td style="padding:12px 0;color:#64748b;font-weight:700">Version Laravel</td>

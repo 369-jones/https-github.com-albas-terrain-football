@@ -47,7 +47,7 @@
                     <label>Email</label>
                     <input type="email" name="email"
                            value="{{ old('email', $equipe->email) }}"
-                           placeholder="equipe@universite.ci">
+                           placeholder="equipe@terrainfoot.com">
                     @error('email')<div class="error">{{ $message }}</div>@enderror
                 </div>
             </div>

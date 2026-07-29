@@ -90,7 +90,7 @@
                 <tr style="border-bottom:1px solid #f1f5f9">
                     <td style="padding:10px 0;color:#64748b;font-weight:700">Montant payé</td>
                     <td style="padding:10px 0;font-weight:800;color:#15803d">
-                        {{ number_format($reservation->paiement->montant_paye, 0, ',', ' ') }} FCFA
+                        @montant($reservation->paiement->montant_paye)
                     </td>
                 </tr>
                 <tr style="border-bottom:1px solid #f1f5f9">

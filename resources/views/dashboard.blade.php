@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="page-title">📊 Tableau de bord</div>
+<div class="page-title"><i class="fa-solid fa-gauge"></i> Tableau de bord</div>
 <div class="page-subtitle">
     Vue d'ensemble — {{ now()->translatedFormat('l d F Y') }}
 </div>
@@ -17,7 +17,7 @@
             <div class="stat-value">{{ $stats['reservations_mois'] }}</div>
             <div class="stat-sub">Total : {{ $stats['total_reservations'] }}</div>
         </div>
-        <div class="stat-icon">🗓️</div>
+        <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
     </div>
     <div class="stat-card card-green">
         <div>
@@ -26,10 +26,10 @@
                 {{ number_format($stats['revenus_mois'], 0, ',', ' ') }}
             </div>
             <div class="stat-sub">
-                Total : {{ number_format($stats['revenus_total'], 0, ',', ' ') }} FCFA
+                Total : @montant($stats['revenus_total'])
             </div>
         </div>
-        <div class="stat-icon">💰</div>
+        <div class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
     </div>
     <div class="stat-card card-orange">
         <div>
@@ -37,7 +37,7 @@
             <div class="stat-value">{{ $stats['en_attente'] }}</div>
             <div class="stat-sub">À confirmer</div>
         </div>
-        <div class="stat-icon">⏳</div>
+        <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
     </div>
     <div class="stat-card card-purple">
         <div>
@@ -45,7 +45,7 @@
             <div class="stat-value">{{ $stats['total_equipes'] }}</div>
             <div class="stat-sub">Équipes inscrites</div>
         </div>
-        <div class="stat-icon">👥</div>
+        <div class="stat-icon"><i class="fa-solid fa-people-group"></i></div>
     </div>
     <div class="stat-card card-teal">
         <div>
@@ -53,17 +53,17 @@
             <div class="stat-value">{{ $stats['total_factures'] }}</div>
             <div class="stat-sub">Reçus générés</div>
         </div>
-        <div class="stat-icon">🧾</div>
+        <div class="stat-icon"><i class="fa-solid fa-file-invoice"></i></div>
     </div>
     <div class="stat-card card-red">
         <div>
             <div class="stat-label">Impayés</div>
             <div class="stat-value">{{ $stats['impayes_count'] }}</div>
             <div class="stat-sub">
-                {{ number_format($stats['impayes_montant'], 0, ',', ' ') }} FCFA
+                @montant($stats['impayes_montant'])
             </div>
         </div>
-        <div class="stat-icon">⚠️</div>
+        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
     </div>
 </div>
 
@@ -408,7 +408,7 @@
                 </div>
                 <div style="font-size:12px;color:#991b1b">
                     Montant total :
-                    {{ number_format($stats['impayes_montant'], 0, ',', ' ') }} FCFA
+                    @montant($stats['impayes_montant'])
                 </div>
             </div>
         </div>
