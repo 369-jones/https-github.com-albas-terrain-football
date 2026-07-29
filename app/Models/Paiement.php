@@ -42,7 +42,7 @@ class Paiement extends Model
             'paye' => '<span class="badge badge-green">Payé</span>',
             'partiel' => '<span class="badge badge-orange">Partiel</span>',
             'impaye' => '<span class="badge badge-red">Impayé</span>',
-            default => '<span class="badge badge-gray">'.$this->statut.'</span>',
+            default => '<span class="badge badge-gray">'.e($this->statut).'</span>',
         };
     }
 

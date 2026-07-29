@@ -54,7 +54,7 @@ class Reservation extends Model
             'confirme' => '<span class="badge badge-green">Confirmé</span>',
             'en_attente' => '<span class="badge badge-orange">En attente</span>',
             'annule' => '<span class="badge badge-red">Annulé</span>',
-            default => '<span class="badge badge-gray">'.$this->statut.'</span>',
+            default => '<span class="badge badge-gray">'.e($this->statut).'</span>',
         };
     }
 }

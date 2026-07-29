@@ -11,7 +11,13 @@ class AuthController extends Controller
     public function showLogin()
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            $user = Auth::user();
+
+            return redirect()->route(match (true) {
+                $user->hasRole('admin') => 'dashboard',
+                $user->hasRole('owner') => 'admin.dashboard',
+                default => 'home',
+            });
         }
 
         return redirect()->route('home', ['login' => 1]);
@@ -38,7 +44,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            $user = Auth::user();
+
+            return redirect()->route(match (true) {
+                $user->hasRole('admin') => 'dashboard',
+                $user->hasRole('owner') => 'admin.dashboard',
+                default => 'home',
+            });
         }
 
         // Échec → retour avec erreur

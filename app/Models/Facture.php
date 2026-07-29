@@ -41,7 +41,7 @@ class Facture extends Model
             'payee' => '<span class="badge badge-green">Payée</span>',
             'emise' => '<span class="badge badge-blue">Émise</span>',
             'annulee' => '<span class="badge badge-red">Annulée</span>',
-            default => '<span class="badge badge-gray">'.$this->statut.'</span>',
+            default => '<span class="badge badge-gray">'.e($this->statut).'</span>',
         };
     }
 }

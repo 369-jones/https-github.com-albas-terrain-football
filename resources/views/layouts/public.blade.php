@@ -29,6 +29,9 @@
                     @if(auth()->user()->hasRole('owner'))
                         <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-signal transition-colors">{{ __('Owner dashboard') }}</a>
                     @endif
+                    @if(auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin.staff.index') }}" class="hover:text-amber-signal transition-colors">{{ __('Stadium managers') }}</a>
+                    @endif
                 @endauth
             </nav>
 

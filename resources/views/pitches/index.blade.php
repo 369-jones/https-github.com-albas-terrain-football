@@ -12,8 +12,10 @@
 
     <section class="bg-pitch-900 text-sand-100 relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 relative z-10">
-            <p class="font-score uppercase tracking-widest text-amber-signal text-sm mb-3">
-                {{ now()->format('l, H:i') }} — {{ __('game time is closer than you think') }}
+            <p class="font-score uppercase tracking-widest text-amber-signal text-sm mb-3"
+               x-data="{ now: new Date() }" x-init="setInterval(() => now = new Date(), 1000)">
+                <span x-text="now.toLocaleDateString(document.documentElement.lang, { weekday: 'long' }) + ', ' + now.toLocaleTimeString(document.documentElement.lang, { hour: '2-digit', minute: '2-digit', hour12: false })">{{ now()->format('l, H:i') }}</span>
+                — {{ __('game time is closer than you think') }}
             </p>
             <h1 class="font-display font-bold text-4xl sm:text-5xl leading-[1.05] max-w-2xl">
                 {{ __('Find a venue. Lock the slot. Play tonight.') }}

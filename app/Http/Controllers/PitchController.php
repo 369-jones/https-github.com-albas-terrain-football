@@ -374,6 +374,11 @@ class PitchController extends Controller
             return;
         }
 
+        $request->validate([
+            'images' => ['array', 'max:8'],
+            'images.*' => ['image', 'mimes:jpeg,png,webp', 'max:5120'],
+        ]);
+
         $hasPrimaryAlready = $pitch->images()->where('is_primary', true)->exists();
 
         foreach ($request->file('images') as $index => $file) {

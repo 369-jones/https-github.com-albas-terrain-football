@@ -17,6 +17,7 @@ use App\Http\Controllers\PitchController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\EarningsController;
 use App\Http\Controllers\PayoutController;
+use App\Http\Controllers\StaffController;
 
 // ── Marketplace public — pitch search, booking, checkout ──
 Route::get('/', [PitchController::class, 'index'])->name('home');
@@ -66,6 +67,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/payouts/{payout}/mark-paid', [PayoutController::class, 'markPaid'])->name('payouts.mark-paid');
         Route::post('/payouts/{payout}/mark-failed', [PayoutController::class, 'markFailed'])->name('payouts.mark-failed');
     });
+
+    // Platform admin only — assigning which staff account is responsible for each stadium.
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
+        Route::get('/staff/{pitch}/edit', [StaffController::class, 'edit'])->name('staff.edit');
+        Route::put('/staff/{pitch}', [StaffController::class, 'update'])->name('staff.update');
+    });
 });
 
 // Provider redirects the browser here after checkout — we re-verify server-side, never trust this alone.
@@ -84,7 +92,9 @@ Route::post('/login', [AuthController::class, 'login'])
     ->name('login.post');
 
 // ── Back-office club — gestion interne (équipes, réservations, factures...) ──
-Route::middleware(['auth'])->group(function () {
+// Réservé au rôle 'admin' : ce périmètre couvre tout le club, pas un stade en particulier,
+// et ne doit jamais être accessible à un simple client authentifié.
+Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Déconnexion
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
