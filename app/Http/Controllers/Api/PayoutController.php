@@ -1,34 +1,37 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PayoutResource;
 use App\Models\Payout;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
+// Deliberately self-scoped everywhere except markPaid/markFailed — a payout is tied to
+// one specific payout_method/payout_details destination, so unlike pitches and bookings
+// this is never widened for 'admin': nobody should see or claim another owner's balance
+// through their own token. Admin oversight of money movement goes through the 'finance'
+// role instead (mark paid/failed), exactly mirroring the web PayoutController.
 class PayoutController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): AnonymousResourceCollection
     {
         $owner = $request->user();
 
         $available = Payout::availableBalanceQuery($owner->id)
             ->get()
             ->groupBy('currency')
-            ->map(fn ($payments) => $payments->sum('amount'));
+            ->map(fn ($payments) => (float) $payments->sum('amount'));
 
-        $payouts = Payout::where('owner_id', $owner->id)
-            ->withCount('items')
-            ->latest()
-            ->paginate(15)
-            ->withQueryString();
-
-        return view('admin.payouts.index', compact('owner', 'available', 'payouts'));
+        return PayoutResource::collection(
+            Payout::where('owner_id', $owner->id)->withCount('items')->latest()->paginate(20)
+        )->additional(['available_balance' => $available]);
     }
 
-    public function updateDestination(Request $request): RedirectResponse
+    public function updateDestination(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'payout_method' => ['required', 'in:bank_transfer,mobile_money'],
@@ -55,50 +58,45 @@ class PayoutController extends Controller
             'payout_details' => $details,
         ]);
 
-        return back()->with('success', __('Payout destination updated.'));
+        return response()->json(['message' => __('Payout destination updated.')]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
         $owner = $request->user();
 
         if (! $owner->payout_method || ! $owner->payout_details) {
-            return back()->with('error', __('Set up a payout destination before requesting a withdrawal.'));
+            throw ValidationException::withMessages([
+                'currency' => __('Set up a payout destination before requesting a withdrawal.'),
+            ]);
         }
 
         $validated = $request->validate([
             'currency' => ['required', 'string', 'size:3'],
         ]);
 
-        try {
-            $payout = Payout::request($owner, $validated['currency']);
-        } catch (ValidationException $e) {
-            return back()->withErrors($e->errors());
-        }
+        $payout = Payout::request($owner, $validated['currency']);
 
-        return back()->with('success', __('Payout of :amount :currency requested.', [
-            'amount' => number_format((float) $payout->amount, 2),
-            'currency' => $payout->currency,
-        ]));
+        return (new PayoutResource($payout))->response()->setStatusCode(201);
     }
 
-    public function markPaid(Request $request, Payout $payout): RedirectResponse
+    public function markPaid(Request $request, Payout $payout): PayoutResource
     {
+        abort_unless($request->user()->hasRole('finance'), 403);
         abort_unless(in_array($payout->status, ['pending', 'processing']), 422);
 
         $payout->update(['status' => 'paid', 'paid_at' => now()]);
 
-        return back()->with('success', __('Payout marked as paid.'));
+        return new PayoutResource($payout);
     }
 
-    public function markFailed(Request $request, Payout $payout): RedirectResponse
+    public function markFailed(Request $request, Payout $payout): PayoutResource
     {
+        abort_unless($request->user()->hasRole('finance'), 403);
         abort_unless(in_array($payout->status, ['pending', 'processing']), 422);
 
-        // No need to touch payout_items — a failed payout is simply excluded from the "locked"
-        // check below, so its payments become available for the owner to withdraw again.
         $payout->update(['status' => 'failed']);
 
-        return back()->with('success', __('Payout marked as failed — its payments are available to withdraw again.'));
+        return new PayoutResource($payout);
     }
 }

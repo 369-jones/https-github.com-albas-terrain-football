@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\PayoutController;
 use App\Http\Controllers\Api\PitchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,13 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->name('api.v1.
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::patch('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
+
+    // Payouts are always self-scoped (index/destination/store act on the caller's own
+    // balance) except mark-paid/mark-failed, which require the 'finance' role and can
+    // act on any owner's payout — matching the web PayoutController exactly.
+    Route::get('/payouts', [PayoutController::class, 'index'])->name('payouts.index');
+    Route::put('/payouts/destination', [PayoutController::class, 'updateDestination'])->name('payouts.destination');
+    Route::post('/payouts', [PayoutController::class, 'store'])->name('payouts.store');
+    Route::post('/payouts/{payout}/mark-paid', [PayoutController::class, 'markPaid'])->name('payouts.mark-paid');
+    Route::post('/payouts/{payout}/mark-failed', [PayoutController::class, 'markFailed'])->name('payouts.mark-failed');
 });
