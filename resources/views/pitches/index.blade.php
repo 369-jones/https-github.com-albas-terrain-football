@@ -24,6 +24,9 @@
                 {{ __('Search verified football pitches, basketball and volleyball courts near you, and pay by card or Mobile Money in seconds.') }}
             </p>
 
+            {{-- Hidden while the login modal is open so it isn't competing for attention behind it. --}}
+            <div x-show="!loginOpen" x-transition.opacity>
+
             {{-- Sport chooser — the primary way to narrow what you're booking --}}
             <div class="flex flex-wrap gap-2 mt-6" role="group" aria-label="{{ __('Sport') }}">
                 <a href="{{ request()->fullUrlWithQuery(['sport' => null]) }}"
@@ -110,6 +113,8 @@
                     </div>
                 </div>
             </form>
+
+            </div>
         </div>
 
         {{-- Subtle pitch-line pattern, not decoration for its own sake — reads as a field from above --}}

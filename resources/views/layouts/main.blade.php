@@ -89,6 +89,12 @@
         .breadcrumb .sep { color: #cbd5e1; }
         .topbar-right { display: flex; align-items: center; gap: 14px; }
         .topbar-date { font-size: 12px; color: #94a3b8; }
+        .topbar-lang-select {
+            border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+            color: #334155; font-size: 13px; font-weight: 600; padding: 6px 10px;
+            cursor: pointer;
+        }
+        .topbar-lang-select:hover { background: #f1f5f9; }
         .topbar-icon-btn {
             position: relative; display: flex; align-items: center; justify-content: center;
             width: 36px; height: 36px; border-radius: 50%; background: #f8fafc;
@@ -222,6 +228,13 @@
                 <span class="current">@yield('breadcrumb', 'Dashboard')</span>
             </div>
             <div class="topbar-right">
+                <select class="topbar-lang-select" aria-label="Langue" onchange="window.location.href = this.value">
+                    @foreach (config('locales.supported') as $code => $lang)
+                        <option value="{{ request()->fullUrlWithQuery(['lang' => $code]) }}" @selected($code === app()->getLocale())>
+                            {{ $lang['flag'] }} {{ strtoupper($code) }}
+                        </option>
+                    @endforeach
+                </select>
                 <a href="{{ route('notifications.index') }}" class="topbar-icon-btn" aria-label="Notifications">
                     <i class="fa-solid fa-bell"></i>
                     @php $topbarNotifCount = \App\Models\Notification::nonLues()->count(); @endphp

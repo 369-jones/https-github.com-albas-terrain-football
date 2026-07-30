@@ -31,10 +31,10 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ], [
-            'email.required' => 'L\'adresse email est obligatoire.',
-            'email.email' => 'L\'adresse email n\'est pas valide.',
-            'password.required' => 'Le mot de passe est obligatoire.',
-            'password.min' => 'Le mot de passe doit contenir au moins 6 caractères.',
+            'email.required' => __('Email address is required.'),
+            'email.email' => __('Please enter a valid email address.'),
+            'password.required' => __('Password is required.'),
+            'password.min' => __('Password must be at least 6 characters.'),
         ]);
 
         // Tentative de connexion
@@ -55,7 +55,7 @@ class AuthController extends Controller
 
         // Échec → retour avec erreur
         return back()->withErrors([
-            'email' => 'Email ou mot de passe incorrect.',
+            'email' => __('Incorrect email or password.'),
         ])->withInput($request->only('email'));
     }
 
