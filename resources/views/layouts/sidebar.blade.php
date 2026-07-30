@@ -89,6 +89,27 @@
             <span>Aide</span>
         </a>
 
+        {{-- ESPACE PROPRIETAIRE --}}
+        <div class="nav-section">Espace propriétaire</div>
+
+        <a href="{{ route('bookings.mine') }}"
+           class="nav-item {{ request()->routeIs('bookings.mine') ? 'active' : '' }}">
+            <span class="nav-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+            <span>Mes réservations</span>
+        </a>
+
+        <a href="{{ route('admin.dashboard') }}"
+           class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <span class="nav-icon"><i class="fa-solid fa-store"></i></span>
+            <span>Tableau de bord propriétaire</span>
+        </a>
+
+        <a href="{{ route('admin.staff.index') }}"
+           class="nav-item {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
+            <span class="nav-icon"><i class="fa-solid fa-user-tie"></i></span>
+            <span>Gestionnaires de stade</span>
+        </a>
+
     </nav>
 
     {{-- FOOTER SIDEBAR --}}

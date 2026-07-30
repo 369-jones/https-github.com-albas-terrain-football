@@ -24,15 +24,6 @@
 
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                 <a href="{{ route('home') }}" class="hover:text-amber-signal transition-colors">{{ __('Find a pitch') }}</a>
-                @auth
-                    <a href="{{ route('bookings.mine') }}" class="hover:text-amber-signal transition-colors">{{ __('My bookings') }}</a>
-                    @if(auth()->user()->hasAnyRole(['owner', 'admin']))
-                        <a href="{{ route('admin.dashboard') }}" class="hover:text-amber-signal transition-colors">{{ __('Owner dashboard') }}</a>
-                    @endif
-                    @if(auth()->user()->hasRole('admin'))
-                        <a href="{{ route('admin.staff.index') }}" class="hover:text-amber-signal transition-colors">{{ __('Stadium managers') }}</a>
-                    @endif
-                @endauth
             </nav>
 
             <div class="flex items-center gap-3">
