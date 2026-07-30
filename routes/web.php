@@ -18,6 +18,7 @@ use App\Http\Controllers\PitchController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\EarningsController;
 use App\Http\Controllers\PayoutController;
+use App\Http\Controllers\StadiumBookingsController;
 use App\Http\Controllers\StaffController;
 
 // ── Marketplace public — pitch search, booking, checkout ──
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
     // not just ones they personally own (controllers scope accordingly for each role).
     Route::middleware('role:owner|admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [PitchController::class, 'dashboard'])->name('dashboard');
+
+        Route::get('/bookings', [StadiumBookingsController::class, 'index'])->name('bookings');
 
         Route::get('/earnings', [EarningsController::class, 'index'])->name('earnings');
         Route::get('/earnings/export', [EarningsController::class, 'export'])->name('earnings.export');

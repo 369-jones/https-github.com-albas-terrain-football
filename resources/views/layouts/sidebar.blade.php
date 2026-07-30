@@ -41,6 +41,12 @@
             <span>Nouvelle réservation</span>
         </a>
 
+        <a href="{{ route('admin.bookings') }}"
+           class="nav-item {{ request()->routeIs('admin.bookings') ? 'active' : '' }}">
+            <span class="nav-icon"><i class="fa-solid fa-futbol"></i></span>
+            <span>Réservations Stades</span>
+        </a>
+
         {{-- FINANCES --}}
         <div class="nav-section">Finances</div>
 

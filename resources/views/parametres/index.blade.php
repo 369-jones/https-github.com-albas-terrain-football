@@ -81,6 +81,20 @@
 
 <div class="panel" style="margin-top:20px">
     <div class="panel-header">
+        <div class="panel-title"><i class="fa-solid fa-user-shield"></i> Gestion des accès</div>
+    </div>
+    <div class="panel-body">
+        <p style="color:#64748b;font-size:14px;margin-bottom:16px">
+            Attribuez la gestion d'un stade — et l'accès qui va avec — à un autre utilisateur. Vous seul, en tant qu'administrateur, pouvez créer ces comptes et décider qui gère quoi.
+        </p>
+        <a href="{{ route('admin.staff.index') }}" class="btn btn-primary">
+            <i class="fa-solid fa-people-arrows"></i> Gérer les accès et les gestionnaires de stade
+        </a>
+    </div>
+</div>
+
+<div class="panel" style="margin-top:20px">
+    <div class="panel-header">
         <div class="panel-title"><i class="fa-solid fa-key"></i> Clé API</div>
     </div>
     <div class="panel-body">
