@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\EquipeController;
+use App\Http\Controllers\Api\FactureController;
+use App\Http\Controllers\Api\PaiementController;
 use App\Http\Controllers\Api\PayoutController;
 use App\Http\Controllers\Api\PitchController;
 use App\Http\Controllers\Api\ReservationController;
@@ -46,4 +48,14 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->name('api.v1.
 Route::middleware(['auth:sanctum', 'throttle:api', 'role:admin'])->prefix('v1')->name('api.v1.')->group(function () {
     Route::apiResource('equipes', EquipeController::class);
     Route::apiResource('reservations', ReservationController::class);
+
+    // Paiements: only index/show/store exist on the web controller too (edit/update/
+    // destroy are no-op redirects there) — a correction is a new record() call against
+    // the same reservation, not an edit of the payment row.
+    Route::apiResource('paiements', PaiementController::class)->only(['index', 'show', 'store']);
+
+    // Factures are generated entirely as a side effect of Paiement::record(); only
+    // index/show/destroy/pdf exist, matching the web FactureController.
+    Route::apiResource('factures', FactureController::class)->only(['index', 'show', 'destroy']);
+    Route::get('/factures/{facture}/pdf', [FactureController::class, 'pdf'])->name('factures.pdf');
 });
